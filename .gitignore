@@ -1,3 +1,6 @@
+# Don't include the data
+Hospital_Data_Raw.zip
+
 # Don't include VS Code workspace settings
 .vscode
 
