@@ -1,6 +1,19 @@
-# MEJO 583 Spring 2019 Progressive Project
+# MEJO 583 Spring 2019 Progressive Project (Hospital Data Project)
 
 Comparing Hospital Data
+#Data Prep and Cleaning
+Data was obtained from these websites as of 4/7/2019:
+-Duke University Hospital
+-WakeMed Hospital
+-UNC Medical Center
+
+## Prep
+Data was manually cleaned to be in CSV format with headers.
+
+
+
+
+
 
 # Resources
 
