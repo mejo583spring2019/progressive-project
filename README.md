@@ -2,6 +2,18 @@
 
 Comparing Hospital Data
 
+#Data  Prep & Cleaning 
+
+Data was obtained from the websites for the following hospitals: 
+- Duke University Hospital
+- WakeMed Hospital 
+- UNC Medical Center
+
+#Prep 
+
+Data was manually cleaned to be in CSV format with headers
+
+
 # Resources
 
 Data files and additional resources are available in Sakai.
