@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-import Table from "./components/Table";
+import DukeTable from "./components/DukeTable";
 
 class App extends Component {
   render() {
     return (
       <div>
         Hello
-        <Table />
+        <DukeTable />
       </div>
     );
   }
