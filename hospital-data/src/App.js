@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 
 import DukeTable from "./components/DukeTable";
@@ -7,14 +7,6 @@ import WakeMedTable from "./components/WakeMedTable";
 
 function Index() {
   return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
 
 class App extends Component {
@@ -45,7 +37,7 @@ class App extends Component {
           <Route path="/data/wakemed" component={WakeMedTable} />
         </div>
       </Router>
-    )
+    );
   }
 }
 
