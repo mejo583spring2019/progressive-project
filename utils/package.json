@@ -1,0 +1,22 @@
+{
+  "name": "progressive-project",
+  "version": "1.0.0",
+  "description": "Comparing Hospital Data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andybrucculeri/progressive-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andybrucculeri/progressive-project/issues"
+  },
+  "homepage": "https://github.com/andybrucculeri/progressive-project#readme",
+  "dependencies": {
+    "csvtojson": "^2.0.8"
+  }
+}
