@@ -2,32 +2,61 @@ import React, { Component } from "react";
 import * as d3 from "d3";
 
 import dukeDrg from "../../data/duke/drg";
+import uncDrg from "../../data/unc/drg";
+import wakeDrg from "../../data/wake/drg";
 
 class BubbleChart extends Component {
   el = React.createRef();
+  width = 800;
+  height = 600;
+
+  constructor(props) {
+    super(props);
+
+    this.dukeData = dukeDrg.map((r) => {
+      r.name = "duke";
+      return r;
+    });
+    this.uncData = uncDrg.map((r) => {
+      r.name = "unc";
+      return r;
+    });
+    this.wakeData = wakeDrg.map((r) => {
+      r.name = "wakemed";
+      return r;
+    });
+
+    this.data = this.dukeData.concat(this.uncData, this.wakeData);
+  }
 
   createSVG() {
     return d3.select(this.el).append("svg")
-        .attr("width", "400")
-        .attr("height", "400")
+        .attr("width", this.width)
+        .attr("height", this.height)
         .attr("style", "border: thin red solid");
   }
 
   drawChart(svg) {
-    svg.append("circle").attr("r", 100);
-    const hierarchalData = this.makeHierarchy(dukeDrg);
-    const packLayout = this.pack([400 - 5, 400 - 5]);
+    const hierarchalData = this.makeHierarchy(this.data);
+    const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
 
     const leaf = svg
         .selectAll("g")
         .data(root.leaves())
-        .join("g")
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+        .classed("unc", (d) => d.data.name === "unc")
+        .classed("duke", (d) => d.data.name === "duke")
+        .classed("wakemed", (d) => d.data.name === "wakemed");
 
     leaf
         .append("circle")
-        .attr("r", (d) => d.r)
+        .attr("r", (d) => {
+          console.log(d);
+          return 20;
+        })
         .attr("fill-opacity", 0.7)
         .attr("fill", "navy");
   }
@@ -49,7 +78,6 @@ class BubbleChart extends Component {
     const svg = this.createSVG();
     this.drawChart(svg);
   }
-
 
   render() {
     return (
