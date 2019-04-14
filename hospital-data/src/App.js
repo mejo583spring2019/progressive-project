@@ -17,6 +17,7 @@ function About() {
 function Users() {
   return <h2>Users</h2>;
 }
+
 /** Hello there */
 class App extends Component {
   render() {
