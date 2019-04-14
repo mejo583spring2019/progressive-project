@@ -1,6 +1,7 @@
 import Table from "../Table";
 import wakemedDRG from "../../data/wakemed/drg";
 
+/** */
 class WakeMedTable extends Table {
   tableData = wakemedDRG;
   columns = [

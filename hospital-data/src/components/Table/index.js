@@ -4,6 +4,7 @@ import Tabulator from "tabulator-tables";
 // import Tabulator stylesheet
 import "tabulator-tables/dist/css/tabulator.min.css";
 
+/** */
 class Table extends Component {
   el = React.createRef();
   tabulator = null; // variable to hold your table
@@ -11,6 +12,7 @@ class Table extends Component {
   columns = []; // column definitions
   tableHeafer = "";
 
+  /** */
   componentDidMount() {
     // instantiate Tabulator when element is mounted
     this.tabulator = new Tabulator(this.el, {
@@ -21,6 +23,9 @@ class Table extends Component {
     });
   }
 
+  /**
+   * @return {Object}
+  */
   render() {
     return (
       <div>

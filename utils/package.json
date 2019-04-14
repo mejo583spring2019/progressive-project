@@ -10,8 +10,5 @@
   "license": "ISC",
   "dependencies": {
     "csvtojson": "^2.0.8"
-  },
-  "devDependencies": {
-    "eslint-config-google": "^0.12.0"
   }
 }
