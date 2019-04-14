@@ -8,6 +8,7 @@ class WakeTable extends Table {
     { title: "Description", field: "drg_description" },
     { title: "Average Price", field: "avg_price" },
   ];
+  tableHeader = "Wake Med DRG";
 }
 
 export default WakeTable;
