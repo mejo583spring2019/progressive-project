@@ -5,6 +5,8 @@ import dukeDrg from "../../data/duke/drg";
 import uncDrg from "../../data/unc/drg";
 import wakeDrg from "../../data/wake/drg";
 
+import "./styles.css";
+
 class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
@@ -37,7 +39,8 @@ class BubbleChart extends Component {
   }
 
   drawChart(svg) {
-    const hierarchalData = this.makeHierarchy(this.data);
+    const data = this.data;
+    const hierarchalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
 
@@ -53,12 +56,8 @@ class BubbleChart extends Component {
 
     leaf
         .append("circle")
-        .attr("r", (d) => {
-          console.log(d);
-          return 20;
-        })
-        .attr("fill-opacity", 0.7)
-        .attr("fill", "navy");
+        .attr("r", (d) => d.r)
+        .attr("fill-opacity", 0.7);
   }
 
   pack(size) {
