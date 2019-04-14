@@ -7,10 +7,10 @@ function main() {
     process.stderr.write("Please provide the path to the file to clean.\n");
   }
 
-  let filepath = process.argv[2];
-  let rawJSON = fs.readFileSync(filepath);
+  const filepath = process.argv[2];
+  const rawJSON = fs.readFileSync(filepath);
 
-  let data = JSON.parse(rawJSON);
+  const data = JSON.parse(rawJSON);
 
   data.forEach((r) => {
     Object.keys(r).forEach((k) => {
@@ -23,7 +23,7 @@ function main() {
     });
   });
 
-  let finalJSON = JSON.stringify(data);
+  const finalJSON = JSON.stringify(data);
   fs.writeFileSync(filepath, finalJSON);
 }
 
