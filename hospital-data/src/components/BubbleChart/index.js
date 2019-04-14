@@ -28,7 +28,7 @@ class BubbleChart extends Component {
       return r;
     });
 
-    this.data = this.dukeData.concat(this.uncData, this.wakeData);
+    this.data = this.dukeData.concat(this.wakeData, this.uncData);
   }
 
   createSVG() {
@@ -40,6 +40,9 @@ class BubbleChart extends Component {
 
   drawChart(svg) {
     const data = this.data;
+    data.sort((a, b) => {
+      return parseInt(a.avg_price) - parseInt(b.avg_price);
+    });
     const hierarchalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
