@@ -97,10 +97,9 @@ class GroupChart extends Component {
 
   getGroupCharts() {
     if (this.state.top20) {
-      return [
-        <SingleGroupChart key="1" data={this.state.top20[1]} />,
-        <SingleGroupChart key="2" data={this.state.top20[3]} />,
-      ];
+      return this.state.top20.map((d, i) => {
+        return <SingleGroupChart key="{i}" data={d} />;
+      });
     }
   }
 
@@ -111,7 +110,9 @@ class GroupChart extends Component {
     return (
       <div>
         <h2>Group Chart</h2>
-        {this.getGroupCharts()}
+        <div className="all-charts">
+          {this.getGroupCharts()}
+        </div>
       </div>
     );
   }
@@ -148,8 +149,7 @@ class SingleGroupChart extends Component {
         .select(this.el)
         .append("svg")
         .attr("width", this.width)
-        .attr("height", this.height)
-        .attr("style", "border: thin red solid");
+        .attr("height", this.height);
   }
 
   /**
@@ -302,6 +302,12 @@ class SingleGroupChart extends Component {
     }
   }
 
+  getDescription() {
+    if (this.state.data) {
+      return Object.values(this.state.data)[0].drg_description.toLowerCase();
+    }
+  }
+
   /**
    * Renders the Chart
    */
@@ -322,10 +328,15 @@ class SingleGroupChart extends Component {
    */
   render() {
     return (
-      <div>
+      <div className="chart-container">
         {this.getTooltip()}
         <div className="groupchart" ref={(el) => (this.el = el)} />
-        ${this.state.data.avg_price.toLocaleString()}
+        <div className="description">
+          {this.getDescription()}
+        </div>
+        <div className="price">
+          ${this.state.data.avg_price.toLocaleString()}
+        </div>
       </div>
     );
   }
