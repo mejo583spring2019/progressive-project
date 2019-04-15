@@ -1,0 +1,13 @@
+import Table from "../Table";
+import wakemed_drg from "../../data/wakemed/drg"
+
+class WakeMedTable extends Table {
+    tableData = wakemed_drg;
+    columns = [
+        {title: "Code", field: "drg_code"},
+        {title: "Description", field: "drg_description"},
+        {title: "Average Price", fieled: "avg_price"}
+    ]
+}
+
+export default WakeMedTable;
