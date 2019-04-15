@@ -12,6 +12,8 @@ Raw data meanually cleaned to be in CSV format with headers.
 Additionally, data was parsed to populate columns as needed
 to create consistently formatted data.
 
+Created cleaned json files.
+
 Comparing Hospital Data
 
 # Resources
