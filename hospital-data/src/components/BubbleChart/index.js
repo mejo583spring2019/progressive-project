@@ -146,6 +146,9 @@ class BubbleChart extends Component {
       const bodyPos = document.body.getBoundingClientRect();
       const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
 
+      const price = s.data.avg_price;
+      const numPrice = parseFloat(price);
+
       return (
         <div
           className="tooltip" style={{
@@ -162,7 +165,7 @@ class BubbleChart extends Component {
               </div>
               <div className="flex-item center-justified">
                 <div className="header">AVGERAGE PRICE</div>
-                <div className="value">${s.data.avg_price}</div>
+                <div className="value">${numPrice.toLocaleString()}</div>
               </div>
               <div className="flex-item right-justified">
                 <div className="header">CODE</div>
