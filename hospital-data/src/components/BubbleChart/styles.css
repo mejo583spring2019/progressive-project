@@ -22,8 +22,29 @@
   cursor: pointer;
 }
 
-.tooltip-content {
-  overflow-y: scroll;
+.tooltip-content .header{
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.right-justified {
+text-align: right;
+}
+
+.center-justified {
+  text-align: center;
+}
+
+.tooltip-content .value{
+  text-transform: capitalize;
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-flow: row nowrap;
+  margin-bottom: 1rem;
 }
 
 .tooltip-tail {
