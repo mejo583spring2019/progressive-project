@@ -12,19 +12,12 @@ import "./styles.css";
    * @param {any} config to build chart.
    */
 class GroupChart extends Component {
-  el = React.createRef();
-  width = 250;
-  height = 250;
-
   /**
    * Renders the Chart
    * @param {any} props to build chart.
    */
   constructor(props) {
     super(props);
-
-    this.width = props.width || 250;
-    this.height = props.height || 250;
 
     this.dukeData = dukeDrg.map((r) => {
       r.name = "duke";
@@ -85,7 +78,9 @@ class GroupChart extends Component {
       });
     });
 
-    const top20 = Object.values(groupedData).sort((a, b) => b.avg_price - a.avg_price).slice(0, 20);
+    const top20 = Object.values(groupedData)
+        .sort((a, b) => b.avg_price - a.avg_price)
+        .slice(0, 20);
 
     this.fullData = this.dukeData.concat(this.wakeData, this.uncData);
 
@@ -100,186 +95,13 @@ class GroupChart extends Component {
     };
   }
 
-  /**
-   * Renders the Chart
-   * @param {any} config to build chart.
-   */
-  createSVG() {
-    this.svg = d3
-        .select(this.el)
-        .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height)
-        .attr("style", "border: thin red solid");
-  }
-
-  /**
-   * Renders the Chart
-   * @param {any} config to build chart.
-   */
-  drawChart() {
-    const data = Object.values(this.state.top20[1]);
-    data.sort((a, b) => {
-      return parseInt(b.avg_price) - parseInt(a.avg_price);
-    });
-    const hierarchalData = this.makeHierarchy(data);
-    const packLayout = this.pack([this.width - 5, this.height - 5]);
-    const root = packLayout(hierarchalData);
-
-    const groups = this.svg
-        .selectAll("g")
-        .data(root.leaves(), (d) => d.data.key);
-
-    if (data.length === 0) {
-      groups.exit().remove();
-      return;
-    }
-
-    const t = d3.transition().duration(800);
-
-    groups
-        .transition(t)
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
-
-    groups.select("circle").attr("r", (d) => d.r);
-
-    groups.exit().remove();
-
-    const leaf = groups
-        .enter()
-        .append("g")
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-        .classed("unc", (d) => d.data.name === "unc")
-        .classed("duke", (d) => d.data.name === "duke")
-        .classed("wakemed", (d) => d.data.name === "wakemed");
-
-    leaf
-        .append("circle")
-        .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7)
-        .on("click", this.bubbleClicked.bind(this));
-  }
-
-  /**
-   * Renders the Chart
-   * @param {int} size to build chart.
-   */
-  pack(size) {
-    return d3
-        .pack()
-        .size(size)
-        .padding(3);
-  }
-
-  /**
-   * Renders the Chart
-   * @param {any} data to build chart.
-   */
-  makeHierarchy(data) {
-    return d3
-        .hierarchy({ children: data })
-        .sum((d) => d.avg_price);
-  }
-
-  /**
-   * Renders the Chart
-   * @param {any} newState to build chart.
-   */
-  filterData(newState) {
-    newState = { ...this.state, ...newState };
-
-    const newData = this.fullData.filter((r) => {
-      return (
-        (r.name === "duke" && newState.showDuke) ||
-        (r.name === "unc" && newState.showUNC) ||
-        (r.name === "wakemed" && newState.showWake)
-      );
-    });
-
-    newState.data = newData;
-    newState.selected = null;
-    this.setState(newState);
-  }
-
-  /**
-   * Renders the Chart
-   * @param {any} bubble to build chart.
-   */
-  bubbleClicked(bubble) {
-    this.setState({ selected: bubble });
-  }
-
-  /**
-   * Renders the Chart
-   * @param {any} config to build chart.
-   */
-  getTooltip() {
-    const ttWidth = 275;
-    const ttHeight = 150;
-    const s = this.state.selected;
-
-    if (s) {
-      const bodyPos = document.body.getBoundingClientRect();
-      const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
-
-      const price = s.data.avg_price;
-      const numPrice = parseFloat(price);
-
-      return (
-        <div
-          className="tooltip" style={{
-            left: svgPos.left + (s.x - (ttWidth / 2) + 1.5),
-            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r,
-          }}
-          onClick={() => this.setState({ selected: null })}
-        >
-          <div className="tooltip-content">
-            <div className="flex-row">
-              <div className="flex-item">
-                <div className="header">HOSPITAL</div>
-                <div className="value">{s.data.name}</div>
-              </div>
-              <div className="flex-item center-justified">
-                <div className="header">AVERAGE PRICE</div>
-                <div className="value">${numPrice.toLocaleString()}</div>
-              </div>
-              <div className="flex-item right-justified">
-                <div className="header">CODE</div>
-                <div className="value">{s.data.drg_code}</div>
-              </div>
-            </div>
-            <div className="flex-row">
-              <div className="flex-item">
-                <div className="header">DESCRIPTION</div>
-                <div className="value">
-                  {s.data.drg_description.toLowerCase()}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="tooltip-tail"></div>
-        </div>
-      );
-    }
-  }
-
   getGroupCharts() {
-    return [<SingleGroupChart data={this.state.top20[1]} />];
-  }
-
-  /**
-   * Renders the Chart
-   */
-  componentDidUpdate() {
-    this.drawChart();
-  }
-
-  /**
-   * Renders the Chart
-   */
-  componentDidMount() {
-    this.createSVG();
-    this.drawChart();
+    if (this.state.top20) {
+      return [
+        <SingleGroupChart key="1" data={this.state.top20[1]} />,
+        <SingleGroupChart key="2" data={this.state.top20[3]} />,
+      ];
+    }
   }
 
   /**
@@ -289,11 +111,7 @@ class GroupChart extends Component {
     return (
       <div>
         <h2>Group Chart</h2>
-
-        {this.getTooltip()}
-
         {this.getGroupCharts()}
-        <div>${this.state.top20[1].avg_price.toLocaleString()}</div>
       </div>
     );
   }
@@ -339,10 +157,10 @@ class SingleGroupChart extends Component {
    * @param {any} config to build chart.
    */
   drawChart() {
-    const data = Object.values(this.state.top20[1]);
-    data.sort((a, b) => {
-      return parseInt(b.avg_price) - parseInt(a.avg_price);
-    });
+    const data = Object.values(this.state.data);
+    // data.sort((a, b) => {
+    //   return parseInt(b.avg_price) - parseInt(a.avg_price);
+    // });
     const hierarchalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
@@ -505,12 +323,9 @@ class SingleGroupChart extends Component {
   render() {
     return (
       <div>
-        <h2>Group Chart</h2>
-
         {this.getTooltip()}
-
-        <div id="groupchart" ref={(el) => (this.el = el)} />
-        <div>${this.state.top20[1].avg_price.toLocaleString()}</div>
+        <div className="groupchart" ref={(el) => (this.el = el)} />
+        ${this.state.data.avg_price.toLocaleString()}
       </div>
     );
   }
