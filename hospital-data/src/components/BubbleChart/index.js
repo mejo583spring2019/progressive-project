@@ -149,7 +149,7 @@ class BubbleChart extends Component {
       return (
         <div
           className="tooltip" style={{
-            left: svgPos.left + (s.x - (ttWidth / 2)),
+            left: svgPos.left + (s.x - (ttWidth / 2) + 1.5),
             top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r,
           }}
           onClick={() => this.setState({ selected: null })}
