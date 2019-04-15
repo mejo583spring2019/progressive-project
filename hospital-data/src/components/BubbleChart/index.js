@@ -138,8 +138,8 @@ class BubbleChart extends Component {
   }
 
   getTooltip() {
-    const ttWidth = 300;
-    const ttHeight = 200;
+    const ttWidth = 275;
+    const ttHeight = 150;
     const s = this.state.selected;
 
     if (s) {
