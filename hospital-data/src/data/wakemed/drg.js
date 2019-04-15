@@ -1,3 +1,5 @@
+/* eslint max-len: ["error", { "ignoreStrings": true }]*/
+
 const wakemedDRG = [
   {
     "drg_code": "3",

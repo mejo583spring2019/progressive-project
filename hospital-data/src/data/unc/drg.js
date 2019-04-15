@@ -1,3 +1,5 @@
+/* eslint max-len: ["error", { "ignoreStrings": true }]*/
+
 const uncDRG = [
   {
     "drg_code": "1",
