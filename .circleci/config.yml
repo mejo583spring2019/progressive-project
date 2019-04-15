@@ -5,15 +5,4 @@ jobs:
       - image: circleci/node
     steps:
       - checkout
-      - run: >
-          for d in $(find . -maxdepth 2  -name package.json | cut -d '/' -f 2); do 
-            pushd $d && npm i && popd; 
-          done
-      - run: >
-          for d in $(find . -maxdepth 2  -name package.json | cut -d '/' -f 2); do 
-            pushd $d && npm i eslint eslint-config-google && popd;
-          done
-      - run: >
-          for d in $(find . -maxdepth 2  -name package.json | cut -d '/' -f 2); do 
-            pushd $d && npx eslint -c ../.eslintrc.json . && popd; 
-          done
+      - run: script/lint
