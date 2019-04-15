@@ -1,10 +1,13 @@
-# MEJO 583 Spring 2019 Progressive Project
+# MEJO 583 Spring 2019 Hospital Data Project
 
-Comparing Hospital Data
+## Data Prep and Cleaning
 
-# Resources
+Data was obtained from the websites for the following hospitals as of 4/7/2019:
 
-Data files and additional resources are available in Sakai.
+- Duke University Hospital
+- WakeMed Hospital
+- UNC Medical Center
 
-Videos will be posted to YouTube on the 
-[MEJO 583 PRogressive Project Playlist](https://www.youtube.com/playlist?list=PL1lx2vQxCloNqRsIm80_0MeLlhP3fzMu0)
+## Prep
+
+Data was manually cleaned to be in CSV format with headers.
