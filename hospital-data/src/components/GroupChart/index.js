@@ -7,29 +7,77 @@ import wakeDrg from "../../data/wake/drg";
 
 import "./styles.css";
 
-class BubbleChart extends Component {
+class GroupChart extends Component {
   el = React.createRef();
-  width = 800;
-  height = 600;
+  width = 250;
+  height = 250;
 
   constructor(props) {
     super(props);
+
+    this.width = props.width || 250;
+    this.height = props.height || 250;
 
     this.dukeData = dukeDrg.map((r) => {
       r.name = "duke";
       r.key = r.name + r.drg_code;
       return r;
     });
+
     this.uncData = uncDrg.map((r) => {
       r.name = "unc";
       r.key = r.name + r.drg_code;
       return r;
     });
+
     this.wakeData = wakeDrg.map((r) => {
       r.name = "wakemed";
       r.key = r.name + r.drg_code;
       return r;
     });
+
+    const metadata = [
+      { name: "unc", data: this.uncData },
+      { name: "duke", data: this.dukeData },
+      { name: "wake", data: this.wakeData },
+    ];
+
+    metadata.sort((a, b) => b.data.length - a.data.length);
+
+
+    const groupedData = {};
+
+    metadata.forEach((md) => {
+      md.data.forEach((r) => {
+        const code = r.drg_code;
+        const name = r.name;
+
+        let grouped = groupedData[code];
+        if (grouped === undefined) {
+          grouped = {};
+        }
+
+        let groupAvgPrice = 0;
+
+        grouped[name] = r;
+
+        const groupKeys = Object.keys(grouped).filter((k) => k !== "avg_price");
+        const groupKeysCount = groupKeys.length;
+
+        groupKeys.forEach((k) => {
+          groupAvgPrice = groupAvgPrice + parseInt(grouped[k].avg_price, 10);
+        });
+
+        groupAvgPrice = Math.round(groupAvgPrice / groupKeysCount);
+
+
+        grouped.avg_price = groupAvgPrice;
+
+        groupedData[code] = grouped;
+      });
+    });
+
+    console.log(groupedData);
 
     this.fullData = this.dukeData.concat(this.wakeData, this.uncData);
 
@@ -38,6 +86,7 @@ class BubbleChart extends Component {
       showUNC: true,
       showWake: true,
       data: this.fullData.slice(),
+      groupedData: groupedData,
       selected: null,
     };
   }
@@ -197,43 +246,13 @@ class BubbleChart extends Component {
   render() {
     return (
       <div>
-        <h2>Bubble Chart</h2>
-
-        <label htmlFor="duke-cb">
-          <input
-            id="duke-cb"
-            type="checkbox"
-            checked={this.state.showDuke}
-            onChange={this.toggleDuke.bind(this)}
-          />
-          Duke
-        </label>
-        <br />
-        <label htmlFor="unc-cb">
-          <input
-            id="unc-cb"
-            type="checkbox"
-            checked={this.state.showUNC}
-            onChange={this.toggleUNC.bind(this)}
-          />
-          UNC
-        </label>
-        <br />
-        <label htmlFor="wake-cb">
-          <input
-            id="wake-cb"
-            type="checkbox"
-            checked={this.state.showWake}
-            onChange={this.toggleWake.bind(this)}
-          />
-          WakeMed
-        </label>
+        <h2>Group Chart</h2>
 
         {this.getTooltip()}
-        <div id="bubblechart" ref={(el) => (this.el = el)} />
+        <div id="groupchart" ref={(el) => (this.el = el)} />
       </div>
     );
   }
 }
 
-export default BubbleChart;
+export default GroupChart;
