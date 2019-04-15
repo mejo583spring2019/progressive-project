@@ -1,3 +1,4 @@
+/* eslint max-len: ["error", { "ignoreStrings": true }] */
 const duke_drg = [
     {
     "drg_code": "1",

@@ -6,8 +6,9 @@ class WakeMedTable extends Table {
     columns = [
         {title: "Code", field: "drg_code"},
         {title: "Description", field: "drg_description"},
-        {title: "Average Price", fieled: "avg_price"}
+        {title: "Average Price", field: "avg_price"}
     ]
+    tableHeader = "WakeMed Hospital DRG"
 }
 
 export default WakeMedTable;

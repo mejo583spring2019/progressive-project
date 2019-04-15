@@ -6,8 +6,10 @@ class UNCTable extends Table {
     columns = [
         {title: "Code", field: "drg_code"},
         {title: "Description", field: "drg_description"},
-        {title: "Average Price", fieled: "avg_price"}
-    ]
+        {title: "Average Price", field: "avg_price"}
+    ];
+
+    tableHeader = "UNC Hospitals DRG"
 }
 
 export default UNCTable;
