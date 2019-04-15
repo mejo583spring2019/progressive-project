@@ -38,6 +38,7 @@ class BubbleChart extends Component {
       showUNC: true,
       showWake: true,
       data: this.fullData.slice(),
+      selected: null,
     };
   }
 
@@ -61,6 +62,11 @@ class BubbleChart extends Component {
         .selectAll("g")
         .data(root.leaves(), (d) => d.data.key);
 
+    if (data.length === 0) {
+      groups.exit().remove();
+      return;
+    }
+
     const t = d3.transition().duration(800);
 
     groups
@@ -82,7 +88,8 @@ class BubbleChart extends Component {
     leaf
         .append("circle")
         .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7);
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
   pack(size) {
@@ -110,7 +117,7 @@ class BubbleChart extends Component {
     });
 
     newState.data = newData;
-
+    newState.selected = null;
     this.setState(newState);
   }
 
@@ -124,6 +131,38 @@ class BubbleChart extends Component {
 
   toggleWake() {
     this.filterData({ showWake: !this.state.showWake });
+  }
+
+  bubbleClicked(bubble) {
+    this.setState({ selected: bubble });
+  }
+
+  getTooltip() {
+    const ttWidth = 300;
+    const ttHeight = 200;
+    const s = this.state.selected;
+
+    if (s) {
+      const bodyPos = document.body.getBoundingClientRect();
+      const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
+
+      return (
+        <div className="tooltip" style={{
+          left: svgPos.left + (s.x - (ttWidth / 2)),
+          top: bodyPos.y + svgPos.y + s.y - s.r - 5,
+        }}
+        onClick={() => this.setState({ selected: null })}
+        >
+          <div className="tooltip-content">
+            <p>{s.data.name}</p>
+            <p>{s.data.drg_code}</p>
+            <p>{s.data.avg_price}</p>
+            <p>{s.data.drg_description}</p>
+          </div>
+          <div className="tooltip-tail"></div>
+        </div>
+      );
+    }
   }
 
   componentDidUpdate() {
@@ -170,6 +209,7 @@ class BubbleChart extends Component {
           WakeMed
         </label>
 
+        {this.getTooltip()}
         <div id="bubblechart" ref={(el) => (this.el = el)} />
       </div>
     );
