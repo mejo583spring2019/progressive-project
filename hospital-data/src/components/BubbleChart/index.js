@@ -39,6 +39,7 @@ class BubbleChart extends Component {
       showUNC: true,
       showWakemed: true,
       data: this.fullData.slice(),
+      selected: null,
     };
   }
 
@@ -64,6 +65,11 @@ class BubbleChart extends Component {
         .selectAll("g")
         .data(root.leaves(), (d) => d.data.key);
 
+    if (data.length === 0) {
+      groups.exit().remove();
+      return;
+    }
+
     const t = d3.transition().duration(800);
 
     groups
@@ -87,7 +93,8 @@ class BubbleChart extends Component {
     leaf
         .append("circle")
         .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7);
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
   pack(size) {
@@ -113,6 +120,7 @@ class BubbleChart extends Component {
     });
 
     newState.data = newData;
+    newState.selected = null;
 
     this.setState(newState);
   }
@@ -127,6 +135,59 @@ class BubbleChart extends Component {
 
   toggleWakemed() {
     this.filterData({showWakemed: !this.state.showWakemed});
+  }
+
+  bubbleClicked(bubble) {
+    this.setState({ selected: bubble});
+  }
+
+  getTooltip() {
+    const ttWidth = 300;
+    const ttHeight = 200;
+    const s = this.state.selected;
+
+    if (s) {
+      const bodyPos = document.body.getBoundingClientRect();
+      const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
+      console.log(bodyPos, svgPos);
+
+      return (
+        <div
+          className="tooltip"
+          style={{
+            left: svgPos.left + (s.x - ttWidth/2) + 6.5,
+            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r + 5,
+          }}
+          onClick={() => this.setState({ selected: null })}
+        >
+          <div className="tooltip-content">
+            <div className="flex-row">
+              <div className="flex-item">
+                <div className="header">HOSPITAL</div>
+                <div className="value">{s.data.name}</div>
+              </div>
+              <div className="flex-item center-justified">
+                <div className="header">AVERAGE PRICE</div>
+                <div className="value">${s.data.avg_price}</div>
+              </div>
+              <div className="flex-item right-justified">
+                <div className="header">CODE</div>
+                <div className="value">{s.data.drg_code}</div>
+              </div>
+            </div>
+            <div className="flex-row">
+              <div className="flex-item">
+                <div className="header">DESCRIPTION</div>
+                <div className="value">{s.data.drg_description.toLowerCase()}</div>
+              </div>
+            </div>
+          </div>
+          <div className="tooltip-tail" />
+        </div>
+      );
+    } else {
+      return;
+    }
   }
 
   componentDidUpdate() {
@@ -169,6 +230,9 @@ class BubbleChart extends Component {
             onChange={this.toggleWakemed.bind(this)} />
           Wakemed
         </label>
+
+        {this.getTooltip()}
+
         <div id="bubblechart" ref={(el) => (this.el = el)} />
       </div>
     );
