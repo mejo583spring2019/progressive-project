@@ -10,5 +10,6 @@ class UNCTable extends Table {
     { title: "Description", field: "drg_description" },
     { title: "Average Price", field: "avg_price" },
   ];
+  tableHeader = "UNC Hospital DRG";
 }
 export default UNCTable;

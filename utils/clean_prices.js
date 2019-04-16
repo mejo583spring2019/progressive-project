@@ -14,7 +14,7 @@ function main() {
             if (k.indexOf("price") >= 0 || k.indexOf("responsibility") >= 0) {
                 let val = r[k];
                 console.log(val);
-                val = val.replace(',', '').replace('$', '');
+                val = val.replace(",", "").replace('$', '');
                 r[k] = val;
             }
         });
