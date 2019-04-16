@@ -4,9 +4,9 @@ import unc_drg from "../../data/unc/drg"
 class UNCTable extends Table {
     tableData = unc_drg;
     columns = [
-        {title: "Code", field: "drg_code"},
-        {title: "Description", field: "drg_description"},
-        {title: "Average Price", field: "avg_price"}
+        { title: "Code", field: "drg_code" },
+        { title: "Description", field: "drg_description" },
+        { title: "Average Price", field: "avg_price" }
     ];
 
     tableHeader = "UNC Hospitals DRG"

@@ -23,34 +23,34 @@ class App extends Component {
   render() {
     return (
       <Router>
-      <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/chart">Bubble Chart</Link>
-            </li>
-            <li>
-              <Link to="/data/duke">Duke DRG</Link>
-            </li>
-            <li>
-              <Link to="/data/unc">UNC DRG</Link>
-            </li>
-            <li>
-              <Link to="/data/wakemed">WakeMed DRG</Link>
-            </li>
-          </ul>
-        </nav>
+        <div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/chart">Bubble Chart</Link>
+              </li>
+              <li>
+                <Link to="/data/duke">Duke DRG</Link>
+              </li>
+              <li>
+                <Link to="/data/unc">UNC DRG</Link>
+              </li>
+              <li>
+                <Link to="/data/wakemed">WakeMed DRG</Link>
+              </li>
+            </ul>
+          </nav>
 
-        <Route path="/" exact component={Index} />
-        <Route path="/chart" exact component={BubbleChart} />
-        <Route path="/data/duke" component={DukeTable} />
-        <Route path="/data/unc" component={UNCTable} />
-        <Route path="/data/wakemed" component={WakeMedTable} />
-      </div>
-    </Router>
+          <Route path="/" exact component={Index} />
+          <Route path="/chart" exact component={BubbleChart} />
+          <Route path="/data/duke" component={DukeTable} />
+          <Route path="/data/unc" component={UNCTable} />
+          <Route path="/data/wakemed" component={WakeMedTable} />
+        </div>
+      </Router>
     );
   }
 }
