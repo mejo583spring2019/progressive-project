@@ -15,11 +15,11 @@ function main() {
     Object.keys(r).forEach((k) => {
       if (k.indexOf("price") >= 0 || k.indexOf("responsibility") >= 0) {
         let val = r[k];
-        val = val.replace(',', '').replace('$', '');
+        val = val.replace(",", "").replace("$", "");
         r[k] = val;
       }
-    })
-  })
+    });
+  });
 
   const finalJSON = JSON.stringify(data);
   fs.writeFileSync(filepath, finalJSON);
