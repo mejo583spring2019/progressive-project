@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
-import DukeTable from "./components/DukeTable";
+// import DukeTable from "./components/DukeTable";
 
 /** this is a JSDOC comment */
 /** this is a JSDOC comment.
