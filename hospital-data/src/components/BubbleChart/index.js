@@ -49,11 +49,11 @@ class BubbleChart extends Component {
   /** */
   createSVG() {
     this.svg = d3
-      .select(this.el)
-      .append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height)
-      .attr("style", "border: thin red solid");
+        .select(this.el)
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .attr("style", "border: thin red solid");
   }
 
   /** */
@@ -69,8 +69,8 @@ class BubbleChart extends Component {
     const root = packLayout(hierarchalData);
 
     const groups = this.svg
-      .selectAll("g")
-      .data(root.leaves(), (d) => d.data.key);
+        .selectAll("g")
+        .data(root.leaves(), (d) => d.data.key);
 
     if (data.length === 0) {
       groups.exit().remove();
@@ -80,27 +80,27 @@ class BubbleChart extends Component {
     const t = d3.transition().duration(800);
 
     groups
-      .transition(t)
-      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
+        .transition(t)
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
     groups
-      .select("circle")
-      .attr("r", (d) => d.r);
+        .select("circle")
+        .attr("r", (d) => d.r);
 
     groups.exit().remove();
 
     const leaf = groups
-      .enter()
-      .append("g")
-      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-      .classed("unc", (d) => d.data.name === "unc")
-      .classed("duke", (d) => d.data.name === "duke")
-      .classed("wakemed", (d) => d.data.name === "wakemed");
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+        .classed("unc", (d) => d.data.name === "unc")
+        .classed("duke", (d) => d.data.name === "duke")
+        .classed("wakemed", (d) => d.data.name === "wakemed");
 
     leaf
-      .append("circle")
-      .attr("r", (d) => d.r)
-      .attr("fill-opacity", 0.7)
-      .on("click", this.bubbleClicked.bind(this));
+        .append("circle")
+        .attr("r", (d) => d.r)
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
   /**
@@ -109,9 +109,9 @@ class BubbleChart extends Component {
    */
   pack(size) {
     return d3
-      .pack()
-      .size(size)
-      .padding(3);
+        .pack()
+        .size(size)
+        .padding(3);
   }
 
   /**
