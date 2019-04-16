@@ -2,14 +2,16 @@
   "name": "utils",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "clean_duke_drg.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "csvtojson": "^2.0.8",
-    "eslint": "^5.16.0"
+    "csvtojson": "^2.0.8"
+  },
+  "devDependencies": {
+    "eslint-config-google": "^0.12.0"
   }
 }
