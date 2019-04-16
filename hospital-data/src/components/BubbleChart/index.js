@@ -156,22 +156,26 @@ class BubbleChart extends Component {
     this.filterData({ showWakemed: !this.state.showWakemed });
   }
 
-  /** */
+  /**
+   * @param {Object} bubble
+  */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble });
   }
 
-  /** */
+  /**
+   * @return {Object}
+  */
   getTooltip() {
     const ttWidth = 300;
-    const ttHeight = 200;
+    // const ttHeight = 200;
     const s = this.state.selected;
 
     if (s) {
       const bodyPos = document.body.getBoundingClientRect();
       const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
 
-      console.log(bodyPos, svgPos);
+      // console.log(bodyPos, svgPos);
 
       return (
         <div
