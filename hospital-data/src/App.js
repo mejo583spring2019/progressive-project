@@ -4,6 +4,7 @@ import DukeTable from "./components/DukeTable";
 import UncTable from "./components/UncTable";
 import WakeTable from "./components/WakeTable";
 import BubbleChart from "./components/BubbleChart";
+import GroupChart from "./components/GroupChart";
 
 /**
 * @return{string}
@@ -34,6 +35,9 @@ class App extends Component {
                 <Link to="/chart">Bubble Chart</Link>
               </li>
               <li>
+                <Link to="/chart/group">Group Chart</Link>
+              </li>
+              <li>
                 <Link to="/data/duke">Duke DRG</Link>
               </li>
               <li>
@@ -47,9 +51,10 @@ class App extends Component {
 
           <Route path="/" exact component={Index} />
           <Route path="/chart" exact component={BubbleChart} />
-          <Route path="/data/duke" component={DukeTable} />
-          <Route path="/data/unc/" component={UncTable} />
-          <Route path="/data/wake/" component={WakeTable} />
+          <Route path="/chart/group" exact component={GroupChart} />
+          <Route path="/data/duke" exact component={DukeTable} />
+          <Route path="/data/unc/"exact component={UncTable} />
+          <Route path="/data/wake/" exact component={WakeTable} />
         </div>
       </Router>
     );

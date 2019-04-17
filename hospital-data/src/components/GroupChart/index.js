@@ -8,15 +8,16 @@ import "./styles.css";
 /**
 * generic table
 */
-class BubbleChart extends Component {
+class GroupChart extends Component {
     el = React.createRef();
-    width = 800;
-    height = 600;
     /**
 * @param {number} props
 */
     constructor(props) {
       super(props);
+      this.width = props.width || 250;
+      this.height = props.height || 250;
+
       this.dukeData = dukeDrg.map((r) => {
         r.name = "duke";
         r.key = r.name + r.drg_code;
@@ -32,6 +33,49 @@ class BubbleChart extends Component {
         r.key = r.name + r.drg_code;
         return r;
       });
+
+      const metadata = [
+        {name: "unc", data: this.uncData},
+        {name: "duke", data: this.dukeData},
+        {name: "wake", data: this.wakeData},
+      ];
+
+      metadata.sort((a, b) => b.data.length - a.data.length);
+
+      const groupedData = {};
+
+      metadata.forEach((md) => {
+        md.data.forEach((r) => {
+          const code = r.drg_code;
+          const name = r.name;
+
+          let grouped = groupedData[code];
+          if (grouped === undefined) {
+            grouped = {};
+          }
+          let groupAvgPrice = 0;
+          grouped[name] = r;
+          const groupKeys = Object.keys(grouped)
+              .filter((k) => k !== "avg_price");
+          const groupKeysCount = groupKeys.length;
+
+          groupKeys.forEach((k) => {
+            groupAvgPrice = groupAvgPrice + parseInt(grouped[k].avg_price, 10);
+          });
+
+          groupAvgPrice = Math.round(groupAvgPrice / groupKeysCount);
+
+          grouped.avg_price = groupAvgPrice;
+
+          groupedData[code] = grouped;
+        });
+      });
+
+      const top20 = Object.values(groupedData)
+          .sort((a, b) => b.avg_price - a.avg_price)
+          .slice(0, 20);
+
+
       this.fullData = this.dukeData.concat(this.uncData, this.wakeData);
 
       this.state = {
@@ -39,6 +83,8 @@ class BubbleChart extends Component {
         showUnc: true,
         showWake: true,
         data: this.fullData.slice(),
+        groupedData: groupedData,
+        top20: top20,
         selected: null,
       };
     }
@@ -56,7 +102,7 @@ class BubbleChart extends Component {
 * @param {number} svg
 */
     drawChart() {
-      const data = this.state.data;
+      const data = Object.values(this.state.top20[1]);
       data.sort((a, b) => parseInt(b.avg_price) - (a.avg_price));
       const hData = this.makeH(data);
       const packLayout = this.pack([this.width -5, this.height - 5]);
@@ -213,33 +259,17 @@ class BubbleChart extends Component {
     render() {
       return (
         <div>
-          <h2>Bubble Chart</h2>
-          <label htmlFor="duke-cb">
-            <input type="checkbox"
-              onChange={this.toggleDuke.bind(this)}
-              checked={this.state.showDuke} id="duke-cb"></input>
-            Duke
-          </label>
-          <br />
-          <label htmlFor="unc-cb">
-            <input type="checkbox"
-              onChange={this.toggleUnc.bind(this)}
-              checked={this.state.showUnc} id="unc-cb"></input>
-            Unc
-          </label>
-          <br />
-          <label htmlFor="wake-cb">
-            <input type="checkbox"
-              onChange={this.toggleWake.bind(this)}
-              checked={this.state.showWake} id="wake-cb"></input>
-            WakeMed
-          </label>
+          <h2>Group Chart</h2>
 
           {this.getTooltip()}
 
-          <div id="bubblechart" ref={(el) => (this.el = el)} />);
+          <div id="groupchart" ref={(el) => (this.el = el)} />);
+          <div>
+            ${this.state.top20[1].avg_price}
+          </div>
         </div>
       );
     }
 }
-export default BubbleChart;
+
+export default GroupChart;
