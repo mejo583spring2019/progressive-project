@@ -7,12 +7,18 @@ import WakeTable from "./components/WakeTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
+/** Create an Index that returns to home
+ * @return {any} JSX to render header.
+ */
 function Index() {
   return <h2>Home</h2>;
 }
 
-/** Hello there */
+/** App to render the whole project */
 class App extends Component {
+  /** Render JSX to call each component
+   * @return {any} Router to build out project
+   */
   render() {
     return (
       <Router>
