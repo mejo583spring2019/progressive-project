@@ -55,8 +55,7 @@ class BubbleChart extends Component {
       .select(this.el)
       .append("svg")
       .attr("width", this.width)
-      .attr("height", this.height)
-      .attr("style", "border: thin red solid");
+      .attr("height", this.height);
   }
 
 
@@ -99,7 +98,7 @@ class BubbleChart extends Component {
       .classed("unc", (d) => d.data.name === "unc")
       .classed("duke", (d) => d.data.name === "duke")
       .classed("wakemed", (d) => d.data.name === "wakemed");
-    ;
+
 
     leaf
       .append("circle")
@@ -220,6 +219,7 @@ class BubbleChart extends Component {
       //Checkboxes
       <div>
         <h2>Bubble Chart</h2>
+        <p>Select any combination of hospitals to view and compare  data.<br />Click a bubble to view the hospital name and the procedure description, price and code.</p>
         <label htmlFor="duke-cb">
           <input
             id="duke-cb"
@@ -257,7 +257,7 @@ class BubbleChart extends Component {
         <div id="bubblechart" ref={el => (this.el = el)} />
       </div>
     );
-  };
+  }
 }
 
 

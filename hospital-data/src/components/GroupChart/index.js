@@ -70,14 +70,12 @@ class GroupChart extends Component {
       });
     });
 
-    console.log(groupedData);
 
     //Sets Top 20
     const top20 = Object.values(groupedData)
       .sort((a, b) => b.avg_price - a.avg_price)
       .slice(0, 20);
 
-    console.log(top20);
 
     //Creates full dataset
     this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
@@ -107,12 +105,13 @@ class GroupChart extends Component {
     return (
       <div>
         <h2>Group Chart</h2>
+        <p>Click a bubble to view the hospital name and the procedure description, price and code.</p>
         < div className="all-charts">
           {this.getGroupCharts()}
         </div>
       </div>
     );
-  };
+  }
 }
 
 
@@ -130,8 +129,6 @@ class SingleGroupChart extends Component {
 
     this.width = props.width || 250;
     this.height = props.height || 250;
-
-    console.log(props.data);
 
     this.state = {
       data: props.data,
@@ -187,7 +184,7 @@ class SingleGroupChart extends Component {
       .classed("unc", (d) => d.data.name === "unc")
       .classed("duke", (d) => d.data.name === "duke")
       .classed("wakemed", (d) => d.data.name === "wakemed");
-    ;
+
 
     leaf
       .append("circle")
@@ -323,7 +320,7 @@ class SingleGroupChart extends Component {
 
       </div>
     );
-  };
+  }
 }
 
 
