@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 import DukeTable from "./components/DukeTable";
 import UNCTable from "./components/UNCTable";
@@ -6,12 +6,24 @@ import WakeMedTable from "./components/WakeMedTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
+/**
+ * Returns the index page 'Home' wrapped in header 2
+ * @return {any}.
+ */
 function Index() {
   return <h2>Home</h2>;
 }
 
-
+/**
+ * App component builds main app
+ * @return {any} html with false links to different pages
+ * and includes all other components built for this page
+ */
 class App extends Component {
+  /**
+ * Render  renders the index page with links
+ * @return {any}.
+ */
   render() {
     return (
       <Router>

@@ -1,25 +1,29 @@
 import Table from "../Table";
-import unc_drg from "../../data/unc/drg";
+import uncDrg from "../../data/unc/drg";
 
+/** UNCTable is a react component built off the
+ * component Table
+ * It takes uncDrg data with columns Code, Description and average price
+ * The table header is University of North Carolina Hospital DRG
+ */
 class UNCTable extends Table {
-    tableData = unc_drg;
-    columns = [
-        {
-            title: "Code",
-            field: "drg_code"
-        },
-        {
-            title: "Description",
-            field: "drg_description"
-        },
-        {
-            title: "Average Price",
-            field: "avg_price"
-        }
+  tableData = uncDrg;
+  columns = [
+    {
+      title: "Code",
+      field: "drg_code",
+    },
+    {
+      title: "Description",
+      field: "drg_description",
+    },
+    {
+      title: "Average Price",
+      field: "avg_price",
+    },
 
-    ]
-    tableHeader = "University of North Carolina Hospital DRG";
-
+  ]
+  tableHeader = "University of North Carolina Hospital DRG";
 }
 
-export default UNCTable
+export default UNCTable;
