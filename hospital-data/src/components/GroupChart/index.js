@@ -73,13 +73,9 @@ class GroupChart extends Component {
       });
     });
 
-    console.log(groupedData);
-
     const top20 = Object.values(groupedData)
         .sort((a, b) => b.avg_price - a.avg_price)
         .slice(0, 20);
-
-    console.log(top20);
 
     this.fullData = this.dukeData.concat(this.uncData, this.wakemedData);
 
@@ -125,8 +121,6 @@ class SingleGroupChart extends Component {
 
     this.width = props.width || 250;
     this.height = props.height || 250;
-
-    console.log(props.data);
 
     this.state = {
       data: props.data,
