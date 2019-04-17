@@ -1,5 +1,3 @@
-/* eslint-disable require-jsdoc */ // REMOVE THESE LINES WHEN DONE EDITING
-
 import React, { Component } from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 
