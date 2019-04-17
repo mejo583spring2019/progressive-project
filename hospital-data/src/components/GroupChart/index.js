@@ -7,16 +7,11 @@ import wakemed_drg from "../../data/wakemed/drg"
 
 import "./styles.css";
 
-//COMPONENT CODE BEGINS
+//GROUP CHART CODE BEGINS
 class GroupChart extends Component {
-  el = React.createRef();
-
   //Constructor
   constructor(props) {
     super(props);
-
-    this.width = props.width || 250;
-    this.height = props.height || 250;
 
     this.dukeData = duke_drg.map(r => {
       r.name = "duke";
@@ -29,8 +24,6 @@ class GroupChart extends Component {
       r.key = r.name + r.drg_code;
       return r;
     });
-
-
 
     this.wakemedData = wakemed_drg.map(r => {
       r.name = "wakemed";
@@ -72,20 +65,22 @@ class GroupChart extends Component {
         groupAvgPrice = Math.round(groupAvgPrice / groupKeysCount);
 
         grouped.avg_price = groupAvgPrice;
+
         groupedData[code] = grouped;
       });
     });
 
     console.log(groupedData);
 
+    //Sets Top 20
     const top20 = Object.values(groupedData)
       .sort((a, b) => b.avg_price - a.avg_price)
       .slice(0, 20);
 
     console.log(top20);
 
+    //Creates full dataset
     this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
-
 
     this.state = {
       showDuke: true,
@@ -95,7 +90,53 @@ class GroupChart extends Component {
       groupedData: groupedData,
       top20: top20,
       selected: null
+    };
+  }
+
+
+  getGroupCharts() {
+    if (this.state.top20) {
+      return this.state.top20.map((d, i) => {
+        return <SingleGroupChart key={i} data={d} />
+      })
     }
+  }
+
+  //Rendering component
+  render() {
+    return (
+      <div>
+        <h2>Group Chart</h2>
+        < div className="all-charts">
+          {this.getGroupCharts()}
+        </div>
+      </div>
+    );
+  };
+}
+
+
+
+
+
+
+//SINGLE CHART CODE BEGINS
+class SingleGroupChart extends Component {
+  el = React.createRef();
+
+  //Constructor
+  constructor(props) {
+    super(props);
+
+    this.width = props.width || 250;
+    this.height = props.height || 250;
+
+    console.log(props.data);
+
+    this.state = {
+      data: props.data,
+      selected: null
+    };
   }
 
   //Creates SVG
@@ -105,14 +146,13 @@ class GroupChart extends Component {
       .append("svg")
       .attr("width", this.width)
       .attr("height", this.height)
-      .attr("style", "border: thin #99badd solid");
   }
 
   //Draws chart
   drawChart() {
-    let data = Object.values(this.state.top20[1]);
+    let data = Object.values(this.state.data);
 
-    data.sort((a, b) => parseInt(b.avg_price) - parseInt(a.avg_price))
+    // data.sort((a, b) => parseInt(b.avg_price) - parseInt(a.avg_price))
 
     let hierarchalData = this.makeHierarchy(data);
     let packLayout = this.pack([this.width - 5, this.height - 5])
@@ -252,6 +292,12 @@ class GroupChart extends Component {
     }
   }
 
+  getDescription() {
+    if (this.state.data) {
+      return Object.values(this.state.data)[0].drg_description.toLowerCase();
+    }
+  }
+
   componentDidUpdate() {
     this.drawChart();
   }
@@ -266,16 +312,15 @@ class GroupChart extends Component {
   render() {
     return (
       //Checkboxes
-      <div>
-        <h2>Group Chart</h2>
-
+      <div className="chart-container">
         {this.getTooltip()}
-
         {/* Chart */}
-        <div id="groupchart" ref={el => (this.el = el)} />
-        <div>
-          ${this.state.top20[1].avg_price}
+        <div className="groupchart" ref={el => (this.el = el)} />
+        <div className="description">
+          {this.getDescription()}
         </div>
+        <div className="price"> ${this.state.data.avg_price}</div>
+
       </div>
     );
   };
