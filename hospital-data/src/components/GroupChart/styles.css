@@ -63,3 +63,22 @@
 
 
 }
+
+.all-charts{
+    display: flex;
+    flex-wrap: wrap; 
+flex-direction : row; 
+}
+
+.description{
+    width: 250px;
+    overflow: hidden; 
+    text-transform: capitalize;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chart-container{
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
