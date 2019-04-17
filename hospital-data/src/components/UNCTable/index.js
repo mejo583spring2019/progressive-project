@@ -1,8 +1,8 @@
 import Table from "../Table";
-import unc_drg from "../../data/unc/drg";
+import uncDrg from "../../data/unc/drg";
 
 class UNCTable extends Table {
-  tableData = unc_drg;
+  tableData = uncDrg;
   columns = [
     {title: "Code", field: "drg_code"},
     {title: "Description", field: "drg_description"},
