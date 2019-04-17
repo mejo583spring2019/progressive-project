@@ -4,6 +4,7 @@ import DukeTable from "./components/DukeTable";
 import UNCTable from "./components/UNCTable";
 import WakeMedTable from "./components/WakeMedTable";
 import BubbleChart from "./components/BubbleChart";
+import GroupChart from "./components/GroupChart";
 
 function Index() {
   return <h2>Home</h2>;
@@ -32,14 +33,18 @@ class App extends Component {
               <li>
                 <Link to="/chart">Bubble Chart</Link>
               </li>
+              <li>
+                <Link to="/chart/group">Group Chart</Link>
+              </li>
             </ul>
           </nav>
 
           <Route path="/" exact component={Index} />
           <Route path="/chart" exact component={BubbleChart} />
-          <Route path="/data-duke/" component={DukeTable} />
-          <Route path="/data-UNC/" component={UNCTable} />
-          <Route path="/data-wm/" component={WakeMedTable} />
+          <Route path="/chart/group" exact component={GroupChart} />
+          <Route path="/data-duke/" exact component={DukeTable} />
+          <Route path="/data-UNC/" exact component={UNCTable} />
+          <Route path="/data-wm/" exact component={WakeMedTable} />
         </div>
       </Router>
 

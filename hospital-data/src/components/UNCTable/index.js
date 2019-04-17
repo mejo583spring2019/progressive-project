@@ -6,7 +6,7 @@ class UNCTable extends Table {
     columns = [
         {
             title: "Code",
-            field: "drg-code"
+            field: "drg_code"
         },
         {
             title: "Description",
