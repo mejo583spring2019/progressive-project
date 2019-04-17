@@ -18,7 +18,7 @@ import GroupChart from './components/GroupChart'
 
 function Index() {
   return (
-    <div>
+    <div id="home-text">
       <h2>In January 2019, a law went into effect requiring hospitals in the United States to make procedure pricing available online. </h2>
       <p>Lawmakers enacted the <a className="moreinfo" href="https://www.congress.gov/bill/115th-congress/house-bill/6508/text" target="_blank">Hospital Price Transparency and Disclosure Act of 2018</a> with the goal of ensuring price transparency for hospital patients. However, many currently available resources <a className="moreinfo" href="https://www.cnn.com/2019/01/07/health/hospital-prices-online-partner/index.html" target="_blank">fail</a> to present information in an effective or user-friendly manner. Prices hide deep within hospital sites, use vague codes and medical jargon, and provide only spreadsheets readable by machine rather than information easily understood by the human eye. Furthermore, prices between hospitals for identical procedures may vary immensely, causing some patients to pay significantly more at some hospitals than at others.</p>
       <h4>Price transparency starts here.</h4>
