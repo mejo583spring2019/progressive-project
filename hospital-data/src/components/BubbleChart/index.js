@@ -149,7 +149,6 @@ class BubbleChart extends Component {
     if (s) {
       const bodyPos = document.body.getBoundingClientRect();
       const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
-      console.log(bodyPos, svgPos);
 
       return (
         <div
@@ -178,7 +177,9 @@ class BubbleChart extends Component {
             <div className="flex-row">
               <div className="flex-item">
                 <div className="header">DESCRIPTION</div>
-                <div className="value">{s.data.drg_description.toLowerCase()}</div>
+                <div className="value">
+                  {s.data.drg_description.toLowerCase()}
+                </div>
               </div>
             </div>
           </div>
