@@ -54,3 +54,23 @@
     left: 135px;
 
 }
+
+.all-charts{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+}
+
+.description{
+    width: 250px;
+    overflow: hidden;
+    text-transform: capitalize;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.chart-container{
+    padding: 1rem;
+    margin-bottom: 1rem;
+}

@@ -75,7 +75,8 @@ function registerValidSW(swUrl, config) {
           installingWorker.onstatechange = () => {
             if (installingWorker.state === "installed") {
               if (navigator.serviceWorker.controller) {
-                // At this point, the updated precached content has been fetched,
+                // At this point, the updated precached
+                // content has been fetched,
                 // but the previous service worker will still serve the older
                 // content until all client tabs are closed.
                 // eslint-disable-next-line no-console
@@ -118,7 +119,8 @@ function checkValidServiceWorker(swUrl, config) {
 // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
       .then((response) => {
-        // Ensure service worker exists, and that we really are getting a JS file.
+        // Ensure service worker exists,
+        // and that we really are getting a JS file.
         const contentType = response.headers.get("content-type");
         if (
           response.status === 404 ||
