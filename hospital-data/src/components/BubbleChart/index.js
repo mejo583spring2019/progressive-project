@@ -2,9 +2,9 @@
 import React, { Component } from "react";
 import * as d3 from "d3";
 
-import duke_drg from "../../data/duke/drg";
-import unc_drg from "../../data/unc/drg";
-import wakemed_drg from "../../data/wakemed/drg";
+import dukeDrg from "../../data/duke/drg";
+import uncDrg from "../../data/unc/drg";
+import wakemedDrg from "../../data/wakemed/drg";
 
 import "./styles.css";
 
@@ -16,17 +16,17 @@ class BubbleChart extends Component {
   constructor(props) {
     super(props);
 
-    this.dukeData = duke_drg.map((r) => {
+    this.dukeData = dukeDrg.map((r) => {
       r.name = "duke";
       r.key = r.name + r.drg_code;
       return r;
     });
-    this.uncData = unc_drg.map((r) => {
+    this.uncData = uncDrg.map((r) => {
       r.name = "unc";
       r.key = r.name + r.drg_code;
       return r;
     });
-    this.wakemedData = wakemed_drg.map((r) => {
+    this.wakemedData = wakemedDrg.map((r) => {
       r.name = "wakemed";
       r.key = r.name + r.drg_code;
       return r;
