@@ -7,11 +7,18 @@ import wakeDrg from "../../data/wake/drg";
 
 import "./styles.css";
 
+/**
+ * BubbleChart builds a large bubble chart
+ * to show all data at once.
+ */
 class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
   height = 600;
 
+  /** Sets up our chart data
+   * @param {object} props
+   */
   constructor(props) {
     super(props);
 
@@ -42,6 +49,9 @@ class BubbleChart extends Component {
     };
   }
 
+  /** createSVG builds an SVG to
+   * put the bubble chart in.
+   */
   createSVG() {
     this.svg = d3.select(this.el).append("svg")
         .attr("width", this.width)
@@ -49,6 +59,10 @@ class BubbleChart extends Component {
         .attr("style", "border: thin red solid");
   }
 
+  /**
+   * Draws the chart by taking the data and
+   * building a bubble for each data point.
+   */
   drawChart() {
     const data = this.state.data;
     data.sort((a, b) => {
@@ -92,6 +106,11 @@ class BubbleChart extends Component {
         .on("click", this.bubbleClicked.bind(this));
   }
 
+  /**
+   * Creates a pack layout with the given size
+   * @param {array} size [width, height]
+   * @return {function} D3 pack layout.
+   */
   pack(size) {
     return d3
         .pack()
@@ -99,12 +118,22 @@ class BubbleChart extends Component {
         .padding(3);
   }
 
+  /**
+  * Creates a hierarchy of the given data
+  * @param {array} data [{record}, {record}...]
+  * @return {function} D3 hierarchy data structure.
+  */
   makeHierarchy(data) {
     return d3
         .hierarchy({ children: data })
         .sum((d) => d.avg_price);
   }
 
+  /** Filters the data so that when you filter
+   * between schools, the data on the table dynamically
+   * changes.
+   * @param {object} newState {record, record...}
+   */
   filterData(newState) {
     newState = { ...this.state, ...newState };
 
@@ -121,22 +150,40 @@ class BubbleChart extends Component {
     this.setState(newState);
   }
 
+  /** Toggles the Duke data on and off
+   * when clicking on the radial buttons.
+   */
   toggleDuke() {
     this.filterData({ showDuke: !this.state.showDuke });
   }
 
+  /** Toggles the UNC data on and off
+   * when clicking on the radial buttons.
+   */
   toggleUNC() {
     this.filterData({ showUNC: !this.state.showUNC });
   }
 
+  /** Toggles the Wake Med data on and off
+   * when clicking on the radial buttons.
+   */
   toggleWake() {
     this.filterData({ showWake: !this.state.showWake });
   }
 
+  /**
+   * Changes the state of the bubble when its clicked
+   * @param {any} bubble
+   */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble });
   }
 
+  /**
+   * Creates a tooltip to show after clicking
+   * on the bubbles
+   * @return {any} JSX to build tooltip.
+   */
   getTooltip() {
     const ttWidth = 275;
     const ttHeight = 150;
@@ -175,7 +222,9 @@ class BubbleChart extends Component {
             <div className="flex-row">
               <div className="flex-item">
                 <div className="header">DESCRIPTION</div>
-                <div className="value">{s.data.drg_description.toLowerCase()}</div>
+                <div className="value">
+                  {s.data.drg_description.toLowerCase()}
+                </div>
               </div>
             </div>
           </div>
@@ -185,15 +234,25 @@ class BubbleChart extends Component {
     }
   }
 
+  /**
+   * Draws a new chart when the data is updated.
+   */
   componentDidUpdate() {
     this.drawChart();
   }
 
+  /**
+   * Renders the chart once the data has been called.
+   */
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
 
+  /**
+   * Renders the chart onto page
+   * @return {any} JSX to build bubble chart.
+   */
   render() {
     return (
       <div>

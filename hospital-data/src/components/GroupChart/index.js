@@ -8,13 +8,12 @@ import wakeDrg from "../../data/wake/drg";
 import "./styles.css";
 
 /**
-   * Renders the Chart
-   * @param {any} config to build chart.
+   * GroupChart creates a set of
+   * bubble charts for grouped data.
    */
 class GroupChart extends Component {
-  /**
-   * Renders the Chart
-   * @param {any} props to build chart.
+  /** Sets up our chart data
+   * @param {object} props
    */
   constructor(props) {
     super(props);
@@ -95,6 +94,10 @@ class GroupChart extends Component {
     };
   }
 
+  /** getGroupCharts generates SingleGroupCharts
+   * for each dataset.
+   * @return {array} SingleGroupChart array.
+   */
   getGroupCharts() {
     if (this.state.top20) {
       return this.state.top20.map((d, i) => {
@@ -104,7 +107,8 @@ class GroupChart extends Component {
   }
 
   /**
-   * Renders the Chart
+   * Presents all single group charts with a header.
+   * @return {any} Charts JSX.
    */
   render() {
     return (
@@ -118,6 +122,9 @@ class GroupChart extends Component {
   }
 }
 
+/** Presents a SingleGroupChart
+ * used by groupChart
+*/
 class SingleGroupChart extends Component {
   el = React.createRef();
   width = 250;
@@ -200,8 +207,9 @@ class SingleGroupChart extends Component {
   }
 
   /**
-   * Renders the Chart
-   * @param {int} size to build chart.
+   * Creates a pack layout with the given size
+   * @param {array} size [width, height]
+   * @return {function} D3 pack layout.
    */
   pack(size) {
     return d3
@@ -211,8 +219,9 @@ class SingleGroupChart extends Component {
   }
 
   /**
-   * Renders the Chart
-   * @param {any} data to build chart.
+   * Creates a hierarchy of the given data
+   * @param {array} data [{record}, {record}...]
+   * @return {function} D3 hierarchy data structure.
    */
   makeHierarchy(data) {
     return d3
@@ -221,8 +230,8 @@ class SingleGroupChart extends Component {
   }
 
   /**
-   * Renders the Chart
-   * @param {any} newState to build chart.
+   * Filters the data into a new state.
+   * @param {object} newState to build chart.
    */
   filterData(newState) {
     newState = { ...this.state, ...newState };
@@ -249,8 +258,9 @@ class SingleGroupChart extends Component {
   }
 
   /**
-   * Renders the Chart
-   * @param {any} config to build chart.
+   * Creates a tooltip to show after clicking
+   * on the bubbles
+   * @return {any} JSX to build tooltip.
    */
   getTooltip() {
     const ttWidth = 275;
@@ -302,6 +312,11 @@ class SingleGroupChart extends Component {
     }
   }
 
+  /**
+   * Gets the description of the object to render
+   * onto the page.
+   * @return {any} Object.values.
+   */
   getDescription() {
     if (this.state.data) {
       return Object.values(this.state.data)[0].drg_description.toLowerCase();
@@ -309,14 +324,14 @@ class SingleGroupChart extends Component {
   }
 
   /**
-   * Renders the Chart
+   * Draws the chart when the data is updated.
    */
   componentDidUpdate() {
     this.drawChart();
   }
 
   /**
-   * Renders the Chart
+   * Renders the chart once the data has been called.
    */
   componentDidMount() {
     this.createSVG();
@@ -325,6 +340,7 @@ class SingleGroupChart extends Component {
 
   /**
    * Renders the Chart
+   * @return {any} JSX to build the chart container.
    */
   render() {
     return (

@@ -1,7 +1,9 @@
 import Table from "../Table";
 import uncDrg from "../../data/unc/drg";
 
-/** This is a table */
+/** UNCTable presents the UNC drg
+ * data in a tabulator table.
+*/
 class UNCTable extends Table {
   tableData = uncDrg;
   columns = [
