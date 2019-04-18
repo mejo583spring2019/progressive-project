@@ -3,7 +3,7 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import UNCTable from "./components/UNCTable";
 import WakeMedTable from "./components/WakeMedTable";
 import DukeTable from "./components/DukeTable";
-
+import BubbleChart from "./components/BubbleChart";
 
 /** this is a JSDOC comment */
 /** this is a JSDOC comment.
@@ -39,6 +39,9 @@ class App extends Component {
                 <Link to="/">Home</Link>
               </li>
               <li>
+                <Link to="/chart">Bubble Chart</Link>
+              </li>
+              <li>
                 <Link to="/data/duke">Duke DRG</Link>
               </li>
               <li>
@@ -52,6 +55,7 @@ class App extends Component {
 
           <Route path="/" exact component={Index} />
           <Route path="/data/duke" component={DukeTable} />
+          <Route path="/chart" component={BubbleChart} />
           <Route path="/data/unc" component={UNCTable} />
           <Route path="/data/wakemed" component={WakeMedTable} />
 
