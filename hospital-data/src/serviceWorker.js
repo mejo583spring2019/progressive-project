@@ -16,13 +16,13 @@ const isLocalhost = Boolean(
   window.location.hostname === "[::1]" ||
   // 127.0.0.1/8 is considered localhost for IPv4.
   window.location.hostname.match(
-      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
-  )
+      /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/,
+  ),
 );
 
-/**
- * @param {Object} config
- */
+/** Register the service worker
+* @param {object} config
+*/
 export function register(config) {
   if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     // The URL constructor is available in all browsers that support SW.
@@ -38,17 +38,18 @@ export function register(config) {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
 
       if (isLocalhost) {
-        // This is running on localhost. Let's check if a
-        // service worker still exists or not.
+        // This is running on localhost.
+        // Let's check if a service worker still exists or not.
         checkValidServiceWorker(swUrl, config);
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
         navigator.serviceWorker.ready.then(() => {
-          // console.log(
-          //     "This web app is being served cache-first by a service " +
-          //   "worker. To learn more, visit https://bit.ly/CRA-PWA"
-          // );
+          // eslint-disable-next-line no-console
+          console.log(
+              "This web app is being served cache-first by a service " +
+            "worker. To learn more, visit https://bit.ly/CRA-PWA",
+          );
         });
       } else {
         // Is not localhost. Just register service worker
@@ -58,10 +59,10 @@ export function register(config) {
   }
 }
 
-/**
- * @param {Object} swUrl
- * @param {Object} config
- */
+/** Register the service worker as valid
+* @param {string} swUrl
+* @param {object} config
+*/
 function registerValidSW(swUrl, config) {
   navigator.serviceWorker
       .register(swUrl)
@@ -77,10 +78,11 @@ function registerValidSW(swUrl, config) {
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
-              // console.log(
-              //     "New content is available and will be used when all " +
-              // "tabs for this page are closed. See https://bit.ly/CRA-PWA."
-              // );
+              // eslint-disable-next-line no-console
+                console.log(
+                    "New content is available and will be used when all " +
+                "tabs for this page are closed. See https://bit.ly/CRA-PWA.",
+                );
 
                 // Execute callback
                 if (config && config.onUpdate) {
@@ -90,7 +92,8 @@ function registerValidSW(swUrl, config) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              // console.log("Content is cached for offline use.");
+              // eslint-disable-next-line no-console
+                console.log("Content is cached for offline use.");
 
                 // Execute callback
                 if (config && config.onSuccess) {
@@ -102,14 +105,15 @@ function registerValidSW(swUrl, config) {
         };
       })
       .catch((error) => {
-      // console.error("Error during service worker registration:", error);
+      // eslint-disable-next-line no-console
+        console.error("Error during service worker registration:", error);
       });
 }
 
-/**
- * @param {*} swUrl
- * @param {*} config
- */
+/** Check if the service worker is valid
+* @param {string} swUrl
+* @param {object} config
+*/
 function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
@@ -132,13 +136,14 @@ function checkValidServiceWorker(swUrl, config) {
         }
       })
       .catch(() => {
-      // console.log(
-      //     "No internet connection found. App is running in offline mode."
-      // );
+      // eslint-disable-next-line no-console
+        console.log(
+            "No internet connection found. App is running in offline mode.",
+        );
       });
 }
 
-/** */
+/** Unregister the service worker */
 export function unregister() {
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.ready.then((registration) => {

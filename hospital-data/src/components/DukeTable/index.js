@@ -1,7 +1,9 @@
 import Table from "../Table";
 import dukeDRG from "../../data/duke/drg";
 
-/** */
+/** DukeTable presents the Duke DRG
+ * data in a tabulator table.
+ */
 class DukeTable extends Table {
   tableData = dukeDRG;
   columns = [

@@ -1,7 +1,9 @@
 import Table from "../Table";
 import wakemedDRG from "../../data/wakemed/drg";
 
-/** */
+/** WakeMedTable presents the WakeMed DRG
+ * data in a tabulator table.
+ */
 class WakeMedTable extends Table {
   tableData = wakemedDRG;
   columns = [

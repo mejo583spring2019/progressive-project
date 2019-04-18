@@ -7,8 +7,8 @@ import WakeMedTable from "./components/WakeMedTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
-/**
- * @return {Object}
+/** Creates a title for the index page.
+ * @return {any} JSX content
  */
 function Index() {
   return <h2>Home</h2>;
@@ -16,8 +16,8 @@ function Index() {
 
 /** */
 class App extends Component {
-  /**
-   * @return {Object}
+  /** Renders the data meant to be on each page.
+   * @return {any} JSX content
    */
   render() {
     return (

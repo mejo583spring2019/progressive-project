@@ -7,9 +7,10 @@ import wakemedDRG from "../../data/wakemed/drg";
 
 import "./styles.css";
 
-/** */
+/** GroupChart creates a set of
+ * bubblecharts for grouped data */
 class GroupChart extends Component {
-  /**
+  /** Sets up our chart data
    * @param {Object} props
    */
   constructor(props) {
@@ -72,13 +73,9 @@ class GroupChart extends Component {
       });
     });
 
-    // console.log(groupedData);
-
     const top20 = Object.values(groupedData)
-        .sort((a, b) => b.avg_price - a.avg_price)
-        .slice(0, 20);
-
-    // console.log(top20);
+      .sort((a, b) => b.avg_price - a.avg_price)
+      .slice(0, 20);
 
     this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
 
@@ -93,8 +90,9 @@ class GroupChart extends Component {
     };
   }
 
-  /**
-   * @return {Object}
+  /** getGroupCharts generates single group charts
+   * for each dataset.
+   * @return {array} SingleGroupChart components
    */
   getGroupCharts() {
     if (this.state.top20) {
@@ -104,8 +102,8 @@ class GroupChart extends Component {
     }
   }
 
-  /**
-* @return {Object}
+  /** Presents all single group charts with a header
+    * @return {any} Charts JSX
     */
   render() {
     return (
@@ -119,11 +117,13 @@ class GroupChart extends Component {
   }
 }
 
-/** */
+/** Presents a single group chart.
+ * Used by a GroupChart.
+*/
 class SingleGroupChart extends Component {
   el = React.createRef();
 
-  /**
+  /** Sets up our tooltip data
    * @param {Object} props
    */
   constructor(props) {
@@ -132,38 +132,38 @@ class SingleGroupChart extends Component {
     this.width = props.width || 250;
     this.height = props.height || 250;
 
-    console.log(props.data);
-
     this.state = {
       data: props.data,
       selected: null,
     };
   }
 
-  /** */
+  /** Creates an SVG from D3. */
   createSVG() {
     this.svg = d3
-        .select(this.el)
-        .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height);
+      .select(this.el)
+      .append("svg")
+      .attr("width", this.width)
+      .attr("height", this.height);
   }
 
-  /** */
+  /** Draws a chart if there is data to draw from.
+   * Also, animates the data if the selector changes.
+  */
   drawChart() {
     const data = Object.values(this.state.data);
 
-    // data.sort((a, b) => {
-    //   return parseInt(b.avg_price) - parseInt(a.avg_price);
-    // });
+    data.sort((a, b) => {
+      return parseInt(b.avg_price) - parseInt(a.avg_price);
+    });
 
     const hierarchalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
 
     const groups = this.svg
-        .selectAll("g")
-        .data(root.leaves(), (d) => d.data.key);
+      .selectAll("g")
+      .data(root.leaves(), (d) => d.data.key);
 
     if (data.length === 0) {
       groups.exit().remove();
@@ -173,50 +173,50 @@ class SingleGroupChart extends Component {
     const t = d3.transition().duration(800);
 
     groups
-        .transition(t)
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
+      .transition(t)
+      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
     groups
-        .select("circle")
-        .attr("r", (d) => d.r);
+      .select("circle")
+      .attr("r", (d) => d.r);
 
     groups.exit().remove();
 
     const leaf = groups
-        .enter()
-        .append("g")
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-        .classed("unc", (d) => d.data.name === "unc")
-        .classed("duke", (d) => d.data.name === "duke")
-        .classed("wakemed", (d) => d.data.name === "wakemed");
+      .enter()
+      .append("g")
+      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+      .classed("unc", (d) => d.data.name === "unc")
+      .classed("duke", (d) => d.data.name === "duke")
+      .classed("wakemed", (d) => d.data.name === "wakemed");
 
     leaf
-        .append("circle")
-        .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7)
-        .on("click", this.bubbleClicked.bind(this));
+      .append("circle")
+      .attr("r", (d) => d.r)
+      .attr("fill-opacity", 0.7)
+      .on("click", this.bubbleClicked.bind(this));
   }
 
-  /**
-   * @return {Object}
-   * @param {Integer} size
+  /** Creates a pack layout with the given size.
+   * @param {array} size [width, height]
+   * @return {function} D3 pack layout
    */
   pack(size) {
     return d3
-        .pack()
-        .size(size)
-        .padding(3);
+      .pack()
+      .size(size)
+      .padding(3);
   }
 
-  /**
-   * @return {Object}
-   * @param {Object} data
+  /** Creates a hierarchy from the data.
+   * @param {array} data [{record}, {record}...]
+   * @return {function} D3 hierarchy data structure
    */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data }).sum((d) => d.avg_price);
   }
 
-  /**
-   * @param {Object} newState
+  /** Filters the data based on which hospital is selected.
+   * @param {Object} newState Changed state of selectors.
    */
   filterData(newState) {
     newState = { ...this.state, ...newState };
@@ -234,30 +234,35 @@ class SingleGroupChart extends Component {
     this.setState(newState);
   }
 
-  /** */
+  /** When the Duke selector is changed
+   * filterData is toggled.
+  */
   toggleDuke() {
     this.filterData({ showDuke: !this.state.showDuke });
   }
 
-  /** */
+  /** When the UNC selector is changed
+   * filterData is toggled.
+  */
   toggleUNC() {
     this.filterData({ showUNC: !this.state.showUNC });
   }
 
-  /** */
+  /** When the WakeMed selector is changed
+   * filterData is toggled.
+  */
   toggleWakemed() {
     this.filterData({ showWakemed: !this.state.showWakemed });
   }
 
-  /**
-   * @param {Object} bubble
+  /** Sets the state of the bubble that is clicked.
+   * @param {any} bubble
   */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble });
   }
 
-  /**
-   * @return {Object}
+  /** Gets a tooltip based on the state selected.
   */
   getTooltip() {
     const ttWidth = 300;
@@ -307,29 +312,31 @@ class SingleGroupChart extends Component {
     }
   }
 
-  /**
-   * @return {Object}
+  /** Grabs the description associated with the bubble clicked.
+   * @return {String} DRG description item.
    */
   getDescription() {
-    console.log(this.data);
     if (this.state.data) {
       return Object.values(this.state.data)[0].drg_description.toLowerCase();
     }
   }
 
-  /** */
+  /** Draws a new chart when components update. */
   componentDidUpdate() {
     this.drawChart();
   }
 
-  /** */
+  /** Instantiates an SVG and Chart to be mounted
+   * onto the page.
+  */
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
 
-  /**
-* @return {Object}
+  /** Presents a chart and the tooltip for each bubble 
+   * clicked.
+   * @return {any} JSX content
     */
   render() {
     return (

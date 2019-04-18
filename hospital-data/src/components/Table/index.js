@@ -4,7 +4,9 @@ import Tabulator from "tabulator-tables";
 // import Tabulator stylesheet
 import "tabulator-tables/dist/css/tabulator.min.css";
 
-/** */
+/** Table presents the specified tableData
+ * and columns as a tabulator table.
+ */
 class Table extends Component {
   el = React.createRef();
   tabulator = null; // variable to hold your table
@@ -12,9 +14,10 @@ class Table extends Component {
   columns = []; // column definitions
   tableHeafer = "";
 
-  /** */
+  /** componenetDidMount instantiates
+   * a Tabulator when element is mounted
+   */
   componentDidMount() {
-    // instantiate Tabulator when element is mounted
     this.tabulator = new Tabulator(this.el, {
       height: "500px",
       data: this.tableData, // link data to table
@@ -23,8 +26,8 @@ class Table extends Component {
     });
   }
 
-  /**
-   * @return {Object}
+  /** Render this table with a header
+   * @return {any} JSX content
   */
   render() {
     return (
