@@ -4,6 +4,7 @@ import { HashRouter as Router, Route, Link } from "react-router-dom";
 import DukeTable from './components/DukeTable';
 import UNCTable from './components/UNCTable';
 import WakeMedTable from './components/WakeMedTable';
+import BubbleChart from './components/BubbleChart'
 
 
 function Index() {
@@ -29,6 +30,9 @@ class App extends Component {
                 <Link to="/">Home</Link>
               </li>
               <li>
+                <Link to="/chart/">Bubble Chart</Link>
+              </li>
+              <li>
                 <Link to="/data/duke/">Duke DRG</Link>
               </li>
               <li>
@@ -41,6 +45,7 @@ class App extends Component {
           </nav>
 
           <Route path="/" exact component={Index} />
+          <Route path="/chart" exact component={BubbleChart} />
           <Route path="/data/duke/" component={DukeTable} />
           <Route path="/data/unc/" component={UNCTable} />
           <Route path="/data/wakemed/" component={WakeMedTable} />
