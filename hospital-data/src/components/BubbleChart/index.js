@@ -25,7 +25,7 @@ class BubbleChart extends Component {
     this.uncData = uncDrg.map((r) => {
       r.name = "unc";
       r.key = r.name + r.drg_code;
-      return r,
+      return r;
     });
     this.wakemedData = wakemedDrg.map((r) => {
       r.name = "wakemed";
@@ -33,13 +33,13 @@ class BubbleChart extends Component {
       return r;
     });
 
-    // this.data = this.dukeData.concat(this.wakemedData, this.uncData);
+    this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
 
     this.state = {
       showDuke: true,
       showUNC: true,
       showWakemed: true,
-      data: this.data,
+      data: this.fullData.slice(),
     };
   }
 
@@ -47,38 +47,54 @@ class BubbleChart extends Component {
   * @return {attr}  attributes
  */
   createSVG() {
-    return d3.select(this.el).append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height)
-      .attr("style", "border: thin red solid");
+    this.svg = d3
+        .select(this.el)
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height)
+        .attr("style", "border: thin red solid");
   }
   /** this is a JSDOC comment.
   * @param {svg} svg an svg
  */
   drawChart(svg) {
-    const data = this.data;
+    const data = this.state.data;
+
+
+    // d3.shuffle(data);
+
     // optional (up to us)
-    // data.sort((a, b) => {
-    //   return parseInt(a.avg_price) - parseInt(b.avg_price);
-    // });
+    data.sort((a, b) => {
+      return parseInt(b.avg_price) - parseInt(a.avg_price);
+    });
 
     const hierarchicalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchicalData);
 
-    const leaf = svg
-      .selectAll("g")
-      .data(root.leaves())
-      .enter()
-      .append("g")
-      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-      .classed("unc", (d) => d.data.name === "unc")
-      .classed("duke", (d) => d.data.name === "duke")
-      .classed("wakemed", (d) => d.data.name === "wakemed");
+    const groups = this.svg
+        .selectAll("g")
+        .data(root.leaves(), (d) => d.data.key);
+
+    const t = d3.transition().duration(800);
+    groups
+        .transition(t)
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
+    groups.select("circle").attr("r", (d) => d.r);
+
+    groups.exit().remove();
+
+    const leaf = groups
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+        .classed("unc", (d) => d.data.name === "unc")
+        .classed("duke", (d) => d.data.name === "duke")
+        .classed("wakemed", (d) => d.data.name === "wakemed");
 
     leaf.append("circle")
-      .attr("r", (d) => d.r)
-      .attr("fill-opacity", 0.7);
+        .attr("r", (d) => d.r)
+        .attr("fill-opacity", 0.7);
   }
 
   /** this is a JSDOC comment.
@@ -87,8 +103,8 @@ class BubbleChart extends Component {
   */
   pack(size) {
     return d3.pack()
-      .size(size)
-      .padding(3);
+        .size(size)
+        .padding(3);
   }
   /** this is a JSDOC comment.
    * @param {data} data takes in some data
@@ -96,22 +112,39 @@ class BubbleChart extends Component {
   */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
-      .sum((d) => d.avg_price);
+        .sum((d) => d.avg_price);
+  }
+  filterData(newState) {
+    newState = { ...this.state, ...newState };
+    const newData = this.fullData.filter((r) => {
+      return (
+        (r.name === "duke" && newState.showDuke) ||
+        (r.name === "unc" && newState.showUNC) ||
+        (r.name === "wakemed" && newState.showWakemed)
+      );
+    });
+    newState.data = newData;
+    this.setState(newState);
   }
 
+
   toggleDuke() {
-    this.setState({ showDuke: !this.state.showDuke });
+    this.filterData({ showDuke: !this.state.showDuke });
   }
   toggleUNC() {
-    this.setState({ showUNC: !this.state.showUNC });
+    this.filterData({ showUNC: !this.state.showUNC });
   }
   toggleWakemed() {
-    this.setState({ showWakemed: !this.state.showWakemed });
+    this.filterData({ showWakemed: !this.state.showWakemed });
+  }
+  /** this is a JSDOC comment.*/
+  componentDidUpdate() {
+    this.drawChart();
   }
   /** this is a JSDOC comment.*/
   componentDidMount() {
-    const svg = this.createSVG();
-    this.drawChart(svg);
+    this.createSVG();
+    this.drawChart();
   }
   /** this is a JSDOC comment.
      * @return {any} a div.
