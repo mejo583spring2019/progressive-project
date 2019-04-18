@@ -74,8 +74,8 @@ class GroupChart extends Component {
     });
 
     const top20 = Object.values(groupedData)
-      .sort((a, b) => b.avg_price - a.avg_price)
-      .slice(0, 20);
+        .sort((a, b) => b.avg_price - a.avg_price)
+        .slice(0, 20);
 
     this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
 
@@ -141,10 +141,10 @@ class SingleGroupChart extends Component {
   /** Creates an SVG from D3. */
   createSVG() {
     this.svg = d3
-      .select(this.el)
-      .append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height);
+        .select(this.el)
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height);
   }
 
   /** Draws a chart if there is data to draw from.
@@ -162,8 +162,8 @@ class SingleGroupChart extends Component {
     const root = packLayout(hierarchalData);
 
     const groups = this.svg
-      .selectAll("g")
-      .data(root.leaves(), (d) => d.data.key);
+        .selectAll("g")
+        .data(root.leaves(), (d) => d.data.key);
 
     if (data.length === 0) {
       groups.exit().remove();
@@ -173,27 +173,27 @@ class SingleGroupChart extends Component {
     const t = d3.transition().duration(800);
 
     groups
-      .transition(t)
-      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
+        .transition(t)
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
     groups
-      .select("circle")
-      .attr("r", (d) => d.r);
+        .select("circle")
+        .attr("r", (d) => d.r);
 
     groups.exit().remove();
 
     const leaf = groups
-      .enter()
-      .append("g")
-      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-      .classed("unc", (d) => d.data.name === "unc")
-      .classed("duke", (d) => d.data.name === "duke")
-      .classed("wakemed", (d) => d.data.name === "wakemed");
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+        .classed("unc", (d) => d.data.name === "unc")
+        .classed("duke", (d) => d.data.name === "duke")
+        .classed("wakemed", (d) => d.data.name === "wakemed");
 
     leaf
-      .append("circle")
-      .attr("r", (d) => d.r)
-      .attr("fill-opacity", 0.7)
-      .on("click", this.bubbleClicked.bind(this));
+        .append("circle")
+        .attr("r", (d) => d.r)
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
   /** Creates a pack layout with the given size.
@@ -202,9 +202,9 @@ class SingleGroupChart extends Component {
    */
   pack(size) {
     return d3
-      .pack()
-      .size(size)
-      .padding(3);
+        .pack()
+        .size(size)
+        .padding(3);
   }
 
   /** Creates a hierarchy from the data.
@@ -263,6 +263,7 @@ class SingleGroupChart extends Component {
   }
 
   /** Gets a tooltip based on the state selected.
+   * @return {any} JSX content
   */
   getTooltip() {
     const ttWidth = 300;
@@ -334,7 +335,7 @@ class SingleGroupChart extends Component {
     this.drawChart();
   }
 
-  /** Presents a chart and the tooltip for each bubble 
+  /** Presents a chart and the tooltip for each bubble
    * clicked.
    * @return {any} JSX content
     */
