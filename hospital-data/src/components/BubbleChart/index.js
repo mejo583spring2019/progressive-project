@@ -18,16 +18,29 @@ class BubbleChart extends Component {
     super(props);
 
     this.dukeData = dukeDrg.map((r) => {
-      r.name = "duke"; return r;
+      r.name = "duke";
+      r.key = r.name + r.drg_code;
+      return r;
     });
     this.uncData = uncDrg.map((r) => {
-      r.name = "unc"; return r;
+      r.name = "unc";
+      r.key = r.name + r.drg_code;
+      return r,
     });
     this.wakemedData = wakemedDrg.map((r) => {
-      r.name = "wakemed"; return r;
+      r.name = "wakemed";
+      r.key = r.name + r.drg_code;
+      return r;
     });
 
-    this.data = this.dukeData.concat(this.wakemedData, this.uncData);
+    // this.data = this.dukeData.concat(this.wakemedData, this.uncData);
+
+    this.state = {
+      showDuke: true,
+      showUNC: true,
+      showWakemed: true,
+      data: this.data,
+    };
   }
 
   /** this is a JSDOC comment.
@@ -35,36 +48,37 @@ class BubbleChart extends Component {
  */
   createSVG() {
     return d3.select(this.el).append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height)
-        .attr("style", "border: thin red solid");
+      .attr("width", this.width)
+      .attr("height", this.height)
+      .attr("style", "border: thin red solid");
   }
   /** this is a JSDOC comment.
   * @param {svg} svg an svg
  */
   drawChart(svg) {
     const data = this.data;
-    data.sort((a, b) => {
-      return parseInt(a.avg_price) - parseInt(b.avg_price);
-    });
+    // optional (up to us)
+    // data.sort((a, b) => {
+    //   return parseInt(a.avg_price) - parseInt(b.avg_price);
+    // });
 
     const hierarchicalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchicalData);
 
     const leaf = svg
-        .selectAll("g")
-        .data(root.leaves())
-        .enter()
-        .append("g")
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-        .classed("unc", (d) => d.data.name === "unc")
-        .classed("duke", (d) => d.data.name === "duke")
-        .classed("wakemed", (d) => d.data.name === "wakemed");
+      .selectAll("g")
+      .data(root.leaves())
+      .enter()
+      .append("g")
+      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+      .classed("unc", (d) => d.data.name === "unc")
+      .classed("duke", (d) => d.data.name === "duke")
+      .classed("wakemed", (d) => d.data.name === "wakemed");
 
     leaf.append("circle")
-        .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7);
+      .attr("r", (d) => d.r)
+      .attr("fill-opacity", 0.7);
   }
 
   /** this is a JSDOC comment.
@@ -73,8 +87,8 @@ class BubbleChart extends Component {
   */
   pack(size) {
     return d3.pack()
-        .size(size)
-        .padding(3);
+      .size(size)
+      .padding(3);
   }
   /** this is a JSDOC comment.
    * @param {data} data takes in some data
@@ -82,13 +96,18 @@ class BubbleChart extends Component {
   */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
-        .sum((d) => d.avg_price);
+      .sum((d) => d.avg_price);
   }
 
-  // pack2 = (data) => d3.pack()
-  //     .size([width - 2, height - 2])
-  //     .padding(3)
-
+  toggleDuke() {
+    this.setState({ showDuke: !this.state.showDuke });
+  }
+  toggleUNC() {
+    this.setState({ showUNC: !this.state.showUNC });
+  }
+  toggleWakemed() {
+    this.setState({ showWakemed: !this.state.showWakemed });
+  }
   /** this is a JSDOC comment.*/
   componentDidMount() {
     const svg = this.createSVG();
@@ -101,7 +120,37 @@ class BubbleChart extends Component {
     return (
       <div>
         <h2>Bubble Chart</h2>
-        <div is="bubblechart" ref={(el) => (this.el = el)} />
+        <label htmlFor="duke-cb">
+
+          <input
+            id="duke-cb"
+            type="checkbox"
+            checked={this.state.showDuke}
+            onChange={this.toggleDuke.bind(this)} />
+          Duke
+        </label>
+        <br />
+        <label htmlFor="unc-cb">
+          <input
+            id="unc-cb"
+            type="checkbox"
+            checked={this.state.showUNC}
+            onChange={this.toggleUNC.bind(this)} />
+          UNC
+        </label>
+        <br />
+        <label htmlFor="wakemed-cb">
+
+          <input
+            id="wakemed-cb"
+            type="checkbox"
+            checked={this.state.showWakemed}
+            onChange={this.toggleWakemed.bind(this)} />
+          WakeMed
+        </label>
+        <div
+          id="bubblechart" ref={(el) => (this.el = el)} />
+
       </div >
     );
   }
