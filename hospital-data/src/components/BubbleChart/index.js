@@ -1,36 +1,36 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import * as d3 from "d3";
 
-import duke_drg from "../../data/duke/drg"
-import unc_drg from "../../data/unc/drg"
-import wakemed_drg from "../../data/wakemed/drg"
+import dukeDRG from "../../data/duke/drg";
+import uncDRG from "../../data/unc/drg";
+import wakemedDRG from "../../data/wakemed/drg";
 
 import "./styles.css";
 
-//COMPONENT CODE BEGINS
+// COMPONENT CODE BEGINS
 class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
   height = 600;
 
 
-  //Constructor
+  // Constructor
   constructor(props) {
     super(props);
 
-    this.dukeData = duke_drg.map(r => {
+    this.dukeData = dukeDRG.map((r) => {
       r.name = "duke";
       r.key = r.name + r.drg_code;
       return r;
     });
 
-    this.uncData = unc_drg.map(r => {
+    this.uncData = uncDRG.map((r) => {
       r.name = "unc";
       r.key = r.name + r.drg_code;
       return r;
     });
 
-    this.wakemedData = wakemed_drg.map(r => {
+    this.wakemedData = wakemedDRG.map((r) => {
       r.name = "wakemed";
       r.key = r.name + r.drg_code;
       return r;
@@ -44,34 +44,34 @@ class BubbleChart extends Component {
       showUNC: true,
       showWakemed: true,
       data: this.fullData.slice(),
-      selected: null
-    }
+      selected: null,
+    };
   }
 
 
-  //Creates SVG
+  // Creates SVG
   createSVG() {
     this.svg = d3
-      .select(this.el)
-      .append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height);
+        .select(this.el)
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height);
   }
 
 
-  //Draws chart
+  // Draws chart
   drawChart() {
-    let data = this.state.data;
+    const data = this.state.data;
 
-    data.sort((a, b) => parseInt(b.avg_price) - parseInt(a.avg_price))
+    data.sort((a, b) => parseInt(b.avg_price) - parseInt(a.avg_price));
 
-    let hierarchalData = this.makeHierarchy(data);
-    let packLayout = this.pack([this.width - 5, this.height - 5])
+    const hierarchalData = this.makeHierarchy(data);
+    const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
 
     const groups = this.svg
-      .selectAll("g")
-      .data(root.leaves(), (d) => d.data.key);
+        .selectAll("g")
+        .data(root.leaves(), (d) => d.data.key);
 
     if (data.length === 0) {
       groups.exit().remove();
@@ -81,48 +81,47 @@ class BubbleChart extends Component {
     const t = d3.transition().duration(800);
 
     groups
-      .transition(t)
-      .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
+        .transition(t)
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
     groups
-      .select("circle")
-      .attr("r", d => d.r);
+        .select("circle")
+        .attr("r", (d) => d.r);
 
     groups
-      .exit()
-      .remove();
+        .exit()
+        .remove();
 
     const leaf = groups
-      .enter()
-      .append("g")
-      .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`)
-      .classed("unc", (d) => d.data.name === "unc")
-      .classed("duke", (d) => d.data.name === "duke")
-      .classed("wakemed", (d) => d.data.name === "wakemed");
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+        .classed("unc", (d) => d.data.name === "unc")
+        .classed("duke", (d) => d.data.name === "duke")
+        .classed("wakemed", (d) => d.data.name === "wakemed");
 
 
     leaf
-      .append("circle")
-      .attr("r", d => d.r)
-      .attr("fill-opacity", 0.7)
-      .on("click", this.bubbleClicked.bind(this));
-
+        .append("circle")
+        .attr("r", (d) => d.r)
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
   pack(size) {
     return d3.pack()
-      .size(size)
-      .padding(3)
+        .size(size)
+        .padding(3);
   }
 
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
-      .sum(d => d.avg_price);
+        .sum((d) => d.avg_price);
   }
 
   filterData(newState) {
-    newState = { ...this.state, ...newState }
+    newState = { ...this.state, ...newState };
 
-    let newData = this.fullData.filter((r) => {
+    const newData = this.fullData.filter((r) => {
       return (
         (r.name === "duke" && newState.showDuke) ||
         (r.name === "unc" && newState.showUNC) ||
@@ -137,39 +136,39 @@ class BubbleChart extends Component {
   }
 
 
-  //Sets button actions, toggles
+  // Sets button actions, toggles
   toggleDuke() {
-    this.filterData({ showDuke: !this.state.showDuke })
+    this.filterData({ showDuke: !this.state.showDuke });
   }
 
   toggleUNC() {
-    this.filterData({ showUNC: !this.state.showUNC })
+    this.filterData({ showUNC: !this.state.showUNC });
   }
 
   toggleWakemed() {
-    this.filterData({ showWakemed: !this.state.showWakemed })
+    this.filterData({ showWakemed: !this.state.showWakemed });
   }
 
   bubbleClicked(bubble) {
-    this.setState({ selected: bubble })
+    this.setState({ selected: bubble });
   }
 
   getTooltip() {
     const ttWidth = 300;
     const ttHeight = 120;
-    let s = this.state.selected;
+    const s = this.state.selected;
 
     if (s) {
-      let bodyPos = document.body.getBoundingClientRect();
-      let svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
+      const bodyPos = document.body.getBoundingClientRect();
+      const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
 
       return (
-        //Tooltips
+        // Tooltips
         <div
           className="tooltip"
           style={{
             left: svgPos.left + (s.x - ttWidth / 2) + 1.5,
-            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r
+            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r,
           }}
           onClick={() => this.setState({ selected: null })}
         >
@@ -213,10 +212,10 @@ class BubbleChart extends Component {
   }
 
 
-  //Rendering component
+  // Rendering component
   render() {
     return (
-      //Checkboxes
+      // Checkboxes
       <div>
         <h2>Bubble Chart</h2>
         <p>Select any combination of hospitals to view and compare  data.<br />Click a bubble to view the hospital name and the procedure description, price and code.</p>
@@ -228,7 +227,7 @@ class BubbleChart extends Component {
             onChange={this.toggleDuke.bind(this)}
           />
           Duke
-      </label>
+        </label>
         <br />
         <label htmlFor="unc-cb">
           <input
@@ -238,7 +237,7 @@ class BubbleChart extends Component {
             onChange={this.toggleUNC.bind(this)}
           />
           UNC
-      </label>
+        </label>
         <br />
         <label htmlFor="wakemed-cb">
           <input
@@ -248,13 +247,13 @@ class BubbleChart extends Component {
             onChange={this.toggleWakemed.bind(this)}
           />
           WakeMed
-      </label>
+        </label>
 
         {this.getTooltip()}
 
 
         {/* Chart */}
-        <div id="bubblechart" ref={el => (this.el = el)} />
+        <div id="bubblechart" ref={(el) => (this.el = el)} />
       </div>
     );
   }

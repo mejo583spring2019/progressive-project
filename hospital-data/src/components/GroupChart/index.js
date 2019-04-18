@@ -1,48 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import * as d3 from "d3";
 
-import duke_drg from "../../data/duke/drg"
-import unc_drg from "../../data/unc/drg"
-import wakemed_drg from "../../data/wakemed/drg"
+import dukeDRG from "../../data/duke/drg";
+import uncDRG from "../../data/unc/drg";
+import wakemedDRG from "../../data/wakemed/drg";
 
 import "./styles.css";
 
-//GROUP CHART CODE BEGINS
+// GROUP CHART CODE BEGINS
+/**
+   * GroupChart creates a set of bubble charts
+   * for grouped data.
+   */
 class GroupChart extends Component {
-  //Constructor
+  // Constructor
+  /**
+   * Sets up our chart data
+   * @param {object} props
+   */
   constructor(props) {
     super(props);
 
-    this.dukeData = duke_drg.map(r => {
+    this.dukeData = dukeDRG.map((r) => {
       r.name = "duke";
       r.key = r.name + r.drg_code;
       return r;
     });
 
-    this.uncData = unc_drg.map(r => {
+    this.uncData = uncDRG.map((r) => {
       r.name = "unc";
       r.key = r.name + r.drg_code;
       return r;
     });
 
-    this.wakemedData = wakemed_drg.map(r => {
+    this.wakemedData = wakemedDRG.map((r) => {
       r.name = "wakemed";
       r.key = r.name + r.drg_code;
       return r;
     });
 
     const metadata = [
-      { "name": "unc", data: this.uncData },
-      { "name": "duke", data: this.dukeData },
-      { "name": "wakemed", data: this.wakemedData },
+      { "name": "unc", "data": this.uncData },
+      { "name": "duke", "data": this.dukeData },
+      { "name": "wakemed", "data": this.wakemedData },
     ];
 
     metadata.sort((a, b) => b.data.length - a.data.length);
 
     const groupedData = {};
 
-    metadata.forEach(md => {
-      md.data.forEach(r => {
+    metadata.forEach((md) => {
+      md.data.forEach((r) => {
         const code = r.drg_code;
         const name = r.name;
 
@@ -55,10 +63,10 @@ class GroupChart extends Component {
 
         grouped[name] = r;
 
-        const groupKeys = Object.keys(grouped).filter(k => k !== "avg_price")
+        const groupKeys = Object.keys(grouped).filter((k) => k !== "avg_price");
         const groupKeysCount = groupKeys.length;
 
-        groupKeys.forEach(k => {
+        groupKeys.forEach((k) => {
           groupAvgPrice = groupAvgPrice + parseInt(grouped[k].avg_price, 10);
         });
 
@@ -71,13 +79,13 @@ class GroupChart extends Component {
     });
 
 
-    //Sets Top 20
+    // Sets Top 20
     const top20 = Object.values(groupedData)
-      .sort((a, b) => b.avg_price - a.avg_price)
-      .slice(0, 20);
+        .sort((a, b) => b.avg_price - a.avg_price)
+        .slice(0, 20);
 
 
-    //Creates full dataset
+    // Creates full dataset
     this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
 
     this.state = {
@@ -87,25 +95,35 @@ class GroupChart extends Component {
       data: this.fullData.slice(),
       groupedData: groupedData,
       top20: top20,
-      selected: null
+      selected: null,
     };
   }
 
-
+  /**
+   * getGroupCharts generates SingleGroupCharts
+   * for each dataset.
+   * @return {array} SingleGroupChart components
+   */
   getGroupCharts() {
     if (this.state.top20) {
       return this.state.top20.map((d, i) => {
-        return <SingleGroupChart key={i} data={d} />
-      })
+        return <SingleGroupChart key={i} data={d} />;
+      });
     }
   }
 
-  //Rendering component
+  // Rendering component
+  /**
+   *Presents all SingleGroupCharts
+   *with a header.
+   *@return {any} Charts JSX
+   */
   render() {
     return (
       <div>
         <h2>Group Chart</h2>
-        <p>Click a bubble to view the hospital name and the procedure description, price and code.</p>
+        <p>Click a bubble to view the hospital name
+           and the procedure description, price and code.</p>
         < div className="all-charts">
           {this.getGroupCharts()}
         </div>
@@ -114,16 +132,19 @@ class GroupChart extends Component {
   }
 }
 
-
-
-
-
-
-//SINGLE CHART CODE BEGINS
+// SINGLE CHART CODE BEGINS
+/**
+ * Presents a single group chart.
+ * Used by GroupChart.
+ */
 class SingleGroupChart extends Component {
   el = React.createRef();
 
-  //Constructor
+  // Constructor
+  /**
+   * Sets up our chart data
+   * @param {object} props
+   */
   constructor(props) {
     super(props);
 
@@ -132,32 +153,36 @@ class SingleGroupChart extends Component {
 
     this.state = {
       data: props.data,
-      selected: null
+      selected: null,
     };
   }
 
-  //Creates SVG
+  /**
+     * Creates SVG
+     */
   createSVG() {
     this.svg = d3
-      .select(this.el)
-      .append("svg")
-      .attr("width", this.width)
-      .attr("height", this.height)
+        .select(this.el)
+        .append("svg")
+        .attr("width", this.width)
+        .attr("height", this.height);
   }
 
-  //Draws chart
+  /**
+       * Draws chart
+       */
   drawChart() {
-    let data = Object.values(this.state.data);
+    const data = Object.values(this.state.data);
 
     // data.sort((a, b) => parseInt(b.avg_price) - parseInt(a.avg_price))
 
-    let hierarchalData = this.makeHierarchy(data);
-    let packLayout = this.pack([this.width - 5, this.height - 5])
+    const hierarchalData = this.makeHierarchy(data);
+    const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
 
     const groups = this.svg
-      .selectAll("g")
-      .data(root.leaves(), (d) => d.data.key);
+        .selectAll("g")
+        .data(root.leaves(), (d) => d.data.key);
 
     if (data.length === 0) {
       groups.exit().remove();
@@ -167,48 +192,62 @@ class SingleGroupChart extends Component {
     const t = d3.transition().duration(800);
 
     groups
-      .transition(t)
-      .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
+        .transition(t)
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`);
     groups
-      .select("circle")
-      .attr("r", d => d.r);
+        .select("circle")
+        .attr("r", (d) => d.r);
 
     groups
-      .exit()
-      .remove();
+        .exit()
+        .remove();
 
     const leaf = groups
-      .enter()
-      .append("g")
-      .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`)
-      .classed("unc", (d) => d.data.name === "unc")
-      .classed("duke", (d) => d.data.name === "duke")
-      .classed("wakemed", (d) => d.data.name === "wakemed");
+        .enter()
+        .append("g")
+        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+        .classed("unc", (d) => d.data.name === "unc")
+        .classed("duke", (d) => d.data.name === "duke")
+        .classed("wakemed", (d) => d.data.name === "wakemed");
 
 
     leaf
-      .append("circle")
-      .attr("r", d => d.r)
-      .attr("fill-opacity", 0.7)
-      .on("click", this.bubbleClicked.bind(this));
-
+        .append("circle")
+        .attr("r", (d) => d.r)
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
+
+  /** Creates a pack layout with the given
+   * size.
+   * @param {array} size [width, height]
+   * @return {function} d3 pack layout
+  */
   pack(size) {
     return d3.pack()
-      .size(size)
-      .padding(3)
+        .size(size)
+        .padding(3);
   }
 
+  /** Creates a pack layout with the given
+   * size.
+   * @param {array} data [{record},{record}...]
+   * @return {function} d3 hierarchy data structure
+  */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
-      .sum(d => d.avg_price);
+        .sum((d) => d.avg_price);
   }
 
+  /**
+   * Filters through data and sets new states.
+   * @param {any} newState
+   */
   filterData(newState) {
-    newState = { ...this.state, ...newState }
+    newState = { ...this.state, ...newState };
 
-    let newData = this.fullData.filter((r) => {
+    const newData = this.fullData.filter((r) => {
       return (
         (r.name === "duke" && newState.showDuke) ||
         (r.name === "unc" && newState.showUNC) ||
@@ -223,39 +262,54 @@ class SingleGroupChart extends Component {
   }
 
 
-  //Sets button actions, toggles
+  // Sets button actions, toggles
+  /**
+   * Changes state for Duke on click.
+   */
   toggleDuke() {
-    this.filterData({ showDuke: !this.state.showDuke })
+    this.filterData({ showDuke: !this.state.showDuke });
   }
-
+  /**
+   * Changes state for UNC on click.
+   */
   toggleUNC() {
-    this.filterData({ showUNC: !this.state.showUNC })
+    this.filterData({ showUNC: !this.state.showUNC });
   }
 
+  /**
+   * Changes state for WakeMed on click.
+   */
   toggleWakemed() {
-    this.filterData({ showWakemed: !this.state.showWakemed })
+    this.filterData({ showWakemed: !this.state.showWakemed });
   }
 
+  /**
+   * Changes state for Bubble on click.
+   * @param {any} bubble
+   */
   bubbleClicked(bubble) {
-    this.setState({ selected: bubble })
+    this.setState({ selected: bubble });
   }
-
+  /**
+   * Creates tooltip.
+   * @return {any} Tooltip JSX
+   */
   getTooltip() {
     const ttWidth = 300;
     const ttHeight = 120;
-    let s = this.state.selected;
+    const s = this.state.selected;
 
     if (s) {
-      let bodyPos = document.body.getBoundingClientRect();
-      let svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
+      const bodyPos = document.body.getBoundingClientRect();
+      const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
 
       return (
-        //Tooltips
+        // Tooltips
         <div
           className="tooltip"
           style={{
             left: svgPos.left + (s.x - ttWidth / 2) + 1.5,
-            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r
+            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r,
           }}
           onClick={() => this.setState({ selected: null })}
         >
@@ -279,7 +333,8 @@ class SingleGroupChart extends Component {
             <div className="flex-row">
               <div className="flex-item">
                 <div className="header">DESCRIPTION</div>
-                <div className="value">{s.data.drg_description.toLowerCase()}</div>
+                <div className="value">{s.data
+                    .drg_description.toLowerCase()}</div>
               </div>
             </div>
           </div>
@@ -289,30 +344,41 @@ class SingleGroupChart extends Component {
     }
   }
 
+  /**
+   * Grabs data description.
+   * @return {any} Tooltip JSX
+   */
   getDescription() {
     if (this.state.data) {
       return Object.values(this.state.data)[0].drg_description.toLowerCase();
     }
   }
-
+  /**
+   * componentDidUpdate updates chart.
+  */
   componentDidUpdate() {
     this.drawChart();
   }
-
+  /**
+   * componentDidMount updates chart.
+  */
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
 
 
-  //Rendering component
+  /**
+  * Renders component.
+  * @return {any} JSX GroupChart
+  */
   render() {
     return (
-      //Checkboxes
+      // Checkboxes
       <div className="chart-container">
         {this.getTooltip()}
         {/* Chart */}
-        <div className="groupchart" ref={el => (this.el = el)} />
+        <div className="groupchart" ref={(el) => (this.el = el)} />
         <div className="description">
           {this.getDescription()}
         </div>

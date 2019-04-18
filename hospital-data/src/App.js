@@ -1,35 +1,52 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 
-import 'react-bulma-components/dist/react-bulma-components.min.css';
+import "react-bulma-components/dist/react-bulma-components.min.css";
 import {
   Heading,
-  Hero
+  Hero,
 } from "react-bulma-components";
 
 
-import DukeTable from './components/DukeTable';
-import UNCTable from './components/UNCTable';
-import WakeMedTable from './components/WakeMedTable';
-import BubbleChart from './components/BubbleChart';
-import GroupChart from './components/GroupChart'
+import DukeTable from "./components/DukeTable";
+import UNCTable from "./components/UNCTable";
+import WakeMedTable from "./components/WakeMedTable";
+import BubbleChart from "./components/BubbleChart";
+import GroupChart from "./components/GroupChart";
 
-
-
+/**
+   * Renders home page.
+   * @return {any} JSX content
+   */
 function Index() {
   return (
     <div id="home-text">
-      <h2>In January 2019, a law went into effect requiring hospitals in the United States to make procedure pricing available online. </h2>
-      <p>Lawmakers enacted the <a className="moreinfo" href="https://www.congress.gov/bill/115th-congress/house-bill/6508/text" target="_blank">Hospital Price Transparency and Disclosure Act of 2018</a> with the goal of ensuring price transparency for hospital patients. However, many currently available resources <a className="moreinfo" href="https://www.cnn.com/2019/01/07/health/hospital-prices-online-partner/index.html" target="_blank">fail</a> to present information in an effective or user-friendly manner. Prices hide deep within hospital sites, use vague codes and medical jargon, and provide only spreadsheets readable by machine rather than information easily understood by the human eye. Furthermore, prices between hospitals for identical procedures may vary immensely, causing some patients to pay significantly more at some hospitals than at others.</p>
+      <h2>In January 2019, a law went into effect requiring
+       hospitals in the United States to make procedure pricing
+       available online. </h2>
+      <p>Lawmakers enacted the <a className="moreinfo" href="https://www.congress.gov/bill/115th-congress/house-bill/6508/text" target="_blank" rel="noopener noreferrer">Hospital Price Transparency and Disclosure Act of 2018</a> with the goal of ensuring price transparency for hospital patients. However, many currently available resources <a className="moreinfo" href="https://www.cnn.com/2019/01/07/health/hospital-prices-online-partner/index.html" target="_blank" rel="noopener noreferrer">fail</a> to present information in an effective or user-friendly manner. Prices hide deep within hospital sites, use vague codes and medical jargon, and provide only spreadsheets readable by machine rather than information easily understood by the human eye. Furthermore, prices between hospitals for identical procedures may vary immensely, causing some patients to pay significantly more at some hospitals than at others.</p>
       <h4>Price transparency starts here.</h4>
-      <p>We believe that patients deserve to understand the cost of procedures, to know how costs between hospitals differ and to choose the hospital that will best suit their needs without surprise charges. Our tool helps patients take control over their health and finances.</p><p>Use the navigation bar to the left to explore and compare prices between three hospitals in the Triangle area.</p>
-      <p id="moreinfo">For more information regarding the Hospital Price Transparency and Disclosure Act of 2018, <a className="moreinfo" href="https://www.nbcnews.com/health/health-news/hospitals-list-procedure-prices-under-new-law-what-you-need-n952686" target="_blank">click here</a>.</p>
+      <p>We believe that patients deserve to understand the
+        cost of procedures, to know how costs between hospitals
+        differ and to choose the hospital that will best suit
+        their needs without surprise charges. Our tool helps
+        patients take control over their health and finances.</p><p>Use
+the navigation bar to the left to explore and
+        compare prices between three hospitals in the Triangle area.</p>
+      <p id="moreinfo">For more information regarding the Hospital Price Transparency and Disclosure Act of 2018, <a className="moreinfo" href="https://www.nbcnews.com/health/health-news/hospitals-list-procedure-prices-under-new-law-what-you-need-n952686" target="_blank" rel="noopener noreferrer">click here</a>.</p>
     </div>
   );
 }
 
-
+/**
+   * Creates app component.
+   * @return {any} Tooltip JSX
+   */
 class App extends Component {
+  /**
+     * Renders app.
+     * @return {any} JSX content
+     */
   render() {
     return (
       <Router>

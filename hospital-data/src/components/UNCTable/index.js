@@ -1,12 +1,16 @@
 import Table from "../Table";
-import unc_drg from "../../data/unc/drg"
+import uncDRG from "../../data/unc/drg";
 
+/**
+ * UNCTable presents the wakemed DRG
+ * data in a tabulator table.
+ */
 class UNCTable extends Table {
-    tableData = unc_drg;
+    tableData = uncDRG;
     columns = [
-        { title: "Code", field: "drg_code" },
-        { title: "Description", field: "drg_description" },
-        { title: "Average Price", field: "avg_price" }
+      { title: "Code", field: "drg_code" },
+      { title: "Description", field: "drg_description" },
+      { title: "Average Price", field: "avg_price" },
     ];
 
     tableHeader = "UNC Hospitals DRG"
