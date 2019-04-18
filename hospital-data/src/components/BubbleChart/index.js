@@ -219,7 +219,7 @@ class BubbleChart extends Component {
                     UNC
                 </label>
                 <br />
-                <label htmlFor="duke-cb">
+                <label htmlFor="wakemed-cb">
                     <input id="wakemed-cb" type="checkbox"
                         checked={this.state.showWakemed}
                         onChange={this.toggleWakeMed.bind(this)}
