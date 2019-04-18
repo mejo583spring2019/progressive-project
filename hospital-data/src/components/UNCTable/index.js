@@ -6,14 +6,14 @@ import uncDRG from "../../data/unc/drg";
  * data in a tabulator table.
  */
 class UNCTable extends Table {
-    tableData = uncDRG;
-    columns = [
-      { title: "Code", field: "drg_code" },
-      { title: "Description", field: "drg_description" },
-      { title: "Average Price", field: "avg_price" },
-    ];
+  tableData = uncDRG;
+  columns = [
+    { title: "Code", field: "drg_code" },
+    { title: "Description", field: "drg_description" },
+    { title: "Average Price", field: "avg_price" },
+  ];
 
-    tableHeader = "UNC Hospitals DRG"
+  tableHeader = "UNC Hospitals DRG"
 }
 
 export default UNCTable;

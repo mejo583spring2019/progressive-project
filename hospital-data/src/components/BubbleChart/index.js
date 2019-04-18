@@ -8,6 +8,10 @@ import wakemedDRG from "../../data/wakemed/drg";
 import "./styles.css";
 
 // COMPONENT CODE BEGINS
+/**
+   * BubbleChart creates a set of bubble charts
+   * for grouped data.
+   */
 class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
@@ -15,6 +19,10 @@ class BubbleChart extends Component {
 
 
   // Constructor
+  /**
+ * Sets up our chart data
+ * @param {object} props
+ */
   constructor(props) {
     super(props);
 
@@ -50,6 +58,9 @@ class BubbleChart extends Component {
 
 
   // Creates SVG
+  /**
+     * Creates SVG
+     */
   createSVG() {
     this.svg = d3
         .select(this.el)
@@ -60,6 +71,9 @@ class BubbleChart extends Component {
 
 
   // Draws chart
+  /**
+       * Draws chart
+       */
   drawChart() {
     const data = this.state.data;
 
@@ -107,17 +121,31 @@ class BubbleChart extends Component {
         .on("click", this.bubbleClicked.bind(this));
   }
 
+  /** Creates a pack layout with the given
+   * size.
+   * @param {array} size [width, height]
+   * @return {function} d3 pack layout
+  */
   pack(size) {
     return d3.pack()
         .size(size)
         .padding(3);
   }
 
+  /** Creates a pack layout with the given
+   * size.
+   * @param {array} data [{record},{record}...]
+   * @return {function} d3 hierarchy data structure
+  */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
         .sum((d) => d.avg_price);
   }
 
+  /**
+   * Filters through data and sets new states.
+   * @param {any} newState
+   */
   filterData(newState) {
     newState = { ...this.state, ...newState };
 
@@ -137,22 +165,37 @@ class BubbleChart extends Component {
 
 
   // Sets button actions, toggles
+  /**
+   * Changes state for Duke on click.
+   */
   toggleDuke() {
     this.filterData({ showDuke: !this.state.showDuke });
   }
-
+  /**
+   * Changes state for UNC on click.
+   */
   toggleUNC() {
     this.filterData({ showUNC: !this.state.showUNC });
   }
-
+  /**
+   * Changes state for WakeMed on click.
+   */
   toggleWakemed() {
     this.filterData({ showWakemed: !this.state.showWakemed });
   }
 
+  /**
+   * Changes state for Bubble on click.
+   * @param {any} bubble
+   */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble });
   }
 
+  /**
+   * Creates tooltip.
+   * @return {any} Tooltip JSX
+   */
   getTooltip() {
     const ttWidth = 300;
     const ttHeight = 120;
@@ -192,7 +235,8 @@ class BubbleChart extends Component {
             <div className="flex-row">
               <div className="flex-item">
                 <div className="header">DESCRIPTION</div>
-                <div className="value">{s.data.drg_description.toLowerCase()}</div>
+                <div className="value">{s.data.drg_description
+                    .toLowerCase()}</div>
               </div>
             </div>
           </div>
@@ -202,10 +246,16 @@ class BubbleChart extends Component {
     }
   }
 
+  /**
+   * componentDidUpdate updates chart.
+  */
   componentDidUpdate() {
     this.drawChart();
   }
 
+  /**
+   * componentDidMount updates chart.
+  */
   componentDidMount() {
     this.createSVG();
     this.drawChart();
@@ -213,12 +263,19 @@ class BubbleChart extends Component {
 
 
   // Rendering component
+  /**
+  * Renders component.
+  * @return {any} JSX GroupChart
+  */
   render() {
     return (
       // Checkboxes
       <div>
         <h2>Bubble Chart</h2>
-        <p>Select any combination of hospitals to view and compare  data.<br />Click a bubble to view the hospital name and the procedure description, price and code.</p>
+        <p>Select any combination of hospitals to view and compare data.<br />
+          Click a bubble to view the hospital name and
+           the procedure description,
+          price and code.</p>
         <label htmlFor="duke-cb">
           <input
             id="duke-cb"
