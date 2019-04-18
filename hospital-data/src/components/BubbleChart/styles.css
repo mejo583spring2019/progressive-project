@@ -1,0 +1,135 @@
+  h1, h2, h3, h4, h5, h6, a, p {
+    font-family: "Playfair Display", serif;
+    margin-top: 20px;
+  }
+
+  #moreinfo {
+    font-style: oblique;
+    font-size: .8rem;
+  }
+
+  .moreinfo{
+    color:#13A2E0;
+  }
+
+  .moreinfo a {
+    color: #13A2E0;
+    text-decoration: underline;
+  }
+
+  .moreinfo a:hover {
+    color: #99badd;
+    text-decoration: underline;
+  }
+
+.unc circle {
+    fill: #99badd;
+}
+
+.duke circle {
+    fill: #001A57;
+}
+
+.wakemed circle {
+    fill: #E7192C;
+}
+
+.tooltip {
+    width: 350px;
+    height: 120px;
+    background: white;
+    box-shadow: 2px 2px 3px rgba(0,0,0,.45);
+    position: absolute;
+    border-radius: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.right-justified {
+    text-align: right;
+}
+
+.center-justified {
+    text-align: center;
+}
+
+.tooltip-content .value {
+    text-transform: capitalize;
+}
+
+.tooltip-content .header {
+    font-size: 0.7rem;
+}
+
+.tooltip-tail {
+    width: 1px;
+    border-top: 15px solid white;
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    position: absolute;
+    top: 120px;
+    left: 135px;
+    width: 1px;
+}
+
+.tooltip-content{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+a {
+    color: white;
+  }
+  
+  a:hover {
+    color:#99badd;
+  }
+
+  .navbar {
+    width: 10%;
+    min-width: 130px;
+  }
+
+  .navbar > li {
+    flex: 1;
+  }
+
+  .navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 10%;
+    min-width: 130px;
+    background-color: #13A2E0;
+    height: 100%; /* Full height */
+    position: fixed; /* Make it stick, even on scroll */
+    overflow: auto; /* Enable scrolling if the sidenav has too much content */
+  }
+
+  .navbar li {
+      margin: 20px;
+  }
+
+
+  .content {
+    justify-content: center;
+    margin-left: 200px;
+    margin-bottom: 80px;
+  }
+
+  #home-text {
+    margin: 20px;
+    margin-right: 150px;
+  }
+  

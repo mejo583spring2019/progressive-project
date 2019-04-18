@@ -4,7 +4,11 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "react-app", "google"],
+  "extends": [
+    "eslint:recommended",
+    "react-app",
+    "google"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
@@ -14,6 +18,9 @@
   },
   "rules": {
     "object-curly-spacing": 0,
-    "quotes": ["error", "double"]
+    "quotes": [
+      "error",
+      "double"
+    ]
   }
 }
