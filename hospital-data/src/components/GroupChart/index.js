@@ -6,11 +6,19 @@ import uncDrg from "../../data/unc/drg";
 import wakemedDrg from "../../data/wakemed/drg";
 
 import "./styles.css";
-
+/**
+ * GroupChart compiles the individual charts for the top 20
+ * and creates charts for each fo them
+ */
 class GroupChart extends Component {
   width = 250;
   height = 250;
 
+  /**
+   * the constructor gathers the data and metadata in order to set up each
+   * chart
+   * @param {object} props
+   */
   constructor(props) {
     super(props);
 
@@ -88,7 +96,10 @@ class GroupChart extends Component {
     };
   }
 
-
+  /**
+   * getGroupCharts maps the top20 data into 20 individual SingleGroupCharts
+   * @return {object} top 20 group charts
+   */
   getGroupCharts() {
     if (this.state.top20) {
       return this.state.top20.map((d, i) => {
@@ -96,7 +107,10 @@ class GroupChart extends Component {
       });
     }
   }
-
+  /**
+   * render renders the group charts and their header on the page
+   * @return {object} header and 20 group charts
+   */
   render() {
     return (
       <div>
@@ -109,11 +123,19 @@ class GroupChart extends Component {
   }
 }
 
+/**
+ * SingleGroupChart creates individual charts which will eventually
+ * be put together with each other to create the list of charts on the page
+ */
 class SingleGroupChart extends Component {
   el = React.createRef();
   width = 250;
   height = 250;
 
+  /**
+   * constructor sets the base state and props width/height
+   * @param {object} props
+   */
   constructor(props) {
     super(props);
 
@@ -126,6 +148,9 @@ class SingleGroupChart extends Component {
     };
   }
 
+  /**
+   * CreateSVG uses d3 to create an SVG element for the chart to occupy
+   */
   createSVG() {
     this.svg = d3
         .select(this.el)
@@ -133,7 +158,11 @@ class SingleGroupChart extends Component {
         .attr("width", this.width)
         .attr("height", this.height);
   }
-
+  /**
+   * drawChart takes the data (each entry is referred to as a leaf),
+   * sorts it, packs it, and uses d3 to represent the data as circles
+   * in a bubble chart
+   */
   drawChart() {
     const data = Object.values(this.state.data);
 
@@ -179,6 +208,11 @@ class SingleGroupChart extends Component {
         .on("click", this.bubbleClicked.bind(this));
   }
 
+  /**
+   * pack takes the data and packs it using d3
+   * @param {object} size
+   * @return {any} d3
+   */
   pack(size) {
     return d3
         .pack()
@@ -186,10 +220,18 @@ class SingleGroupChart extends Component {
         .padding(3);
   }
 
+  /**
+   * makeHierarchy organizes the data in hierarchally
+   * @param {object} data
+   * @return {any} d3.hierarchy
+   */
   makeHierarchy(data) {
     return d3.hierarchy({children: data}).sum((d) => d.avg_price);
   }
-
+  /**
+   * filterData allows for individuals to filter the data from the 3 hospitals
+   * @param {object} newState
+   */
   filterData(newState) {
     newState = {...this.state, ...newState};
 
@@ -207,22 +249,44 @@ class SingleGroupChart extends Component {
     this.setState(newState);
   }
 
+  /**
+   * toggleDuke uses filterData to change the state of duke data by
+   * filtering it in and out
+   */
   toggleDuke() {
     this.filterData({showDuke: !this.state.showDuke});
   }
 
+  /**
+   * toggleUNC uses filterData to change the state of UNC data by
+   * filtering it in and out
+   */
   toggleUNC() {
     this.filterData({showUNC: !this.state.showUNC});
   }
 
+  /**
+   * toggleWakemed uses filterData to change the state of Wakemed data by
+   * filtering it in and out
+   */
   toggleWakemed() {
     this.filterData({showWakemed: !this.state.showWakemed});
   }
 
+  /**
+   * bubbleClick registers clicks on individual bubbles,
+   * is later used for tooltip
+   * @param {object} bubble
+   */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble});
   }
 
+  /**
+   * getTooltip uses the state to determine whether or not to present a tooltip,
+   * as well as where the tooltip should appear dependant on the bubble
+   * @return {object} tooltip div
+   */
   getTooltip() {
     const ttWidth = 300;
     const ttHeight = 200;
@@ -273,21 +337,36 @@ class SingleGroupChart extends Component {
     }
   }
 
+  /**
+   * getDescription finds the drg description and returns it to be rendered
+   * @return {object} drg description
+   */
   getDescription() {
     if (this.state.data) {
       return Object.values(this.state.data)[0].drg_description.toLowerCase();
     }
   }
 
+  /**
+   * componentDidUpdate makes sure the chart is correctly redrawn
+   * upon changes to the state
+   */
   componentDidUpdate() {
     this.drawChart();
   }
 
+  /**
+   * componentDidMount triggers createSVG and drawChart upon mounting
+   */
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
 
+  /**
+   * renders charts, descriptions, tooltip, and avg prices
+   * @return {obj} all charts
+   */
   render() {
     return (
       <div className = "chart-container">
