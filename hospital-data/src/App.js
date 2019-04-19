@@ -7,18 +7,29 @@ import WakeMedTable from "./components/WakeMedTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
+/**
+ * Index returns the header and intro text
+ * @return {object} header/intro text
+ */
 function Index() {
   return (
     <div>
       <h2 className="main-header">Home</h2>
-      <div className="intro">This project was composed from data retrieved from UNC, Duke, and Wakemed hospitals.
-      It was constructed in ReactJS for MEJO 583 at UNC-Chapel Hill.</div>
+      <div className="intro">This project was composed from data retrieved
+      from UNC, Duke, and Wakemed hospitals. It was constructed in ReactJS
+      for MEJO 583 at UNC-Chapel Hill.</div>
     </div>
   );
 }
 
-
+/**
+ * creates basic App
+ */
 class App extends Component {
+  /**
+   * renders the router (nav menu at the top)
+   * @return {object} navigation/router
+   */
   render() {
     return (
       <Router>
