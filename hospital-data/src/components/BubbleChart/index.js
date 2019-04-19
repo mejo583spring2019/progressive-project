@@ -36,7 +36,7 @@ class BubbleChart extends Component {
     });
 
     this.fullData = this.data = this.dukeData
-        .concat(this.uncData, this.wakemedData);
+      .concat(this.uncData, this.wakemedData);
 
     this.state = {
       showDuke: true,
@@ -51,9 +51,9 @@ class BubbleChart extends Component {
       */
   createSVG() {
     this.svg = d3.select(this.el)
-        .append("svg")
-        .attr("width", this.width)
-        .attr("height", this.height);
+      .append("svg")
+      .attr("width", this.width)
+      .attr("height", this.height);
   }
 
   /** drawChart using hierarchical data from state
@@ -68,10 +68,10 @@ class BubbleChart extends Component {
     const root = packLayout(hierarchicalData);
 
     const groups = this.svg
-        .selectAll("g")
-        .data(root.leaves(), (d) => {
-          return d.data.key;
-        })
+      .selectAll("g")
+      .data(root.leaves(), (d) => {
+        return d.data.key;
+      })
       ;
 
     if (data.length === 0) {
@@ -80,25 +80,25 @@ class BubbleChart extends Component {
     }
     const t = d3.transition().duration(800);
     groups
-        .transition(t)
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-    ;
+      .transition(t)
+      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+      ;
 
     groups.select("circle").attr("r", (d) => d.r);
     groups.exit().remove();
 
     const leaf = groups.enter()
-        .append("g")
-        .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
-        .classed("unc", (d) => d.data.name === "unc")
-        .classed("duke", (d) => d.data.name === "duke")
-        .classed("wakemed", (d) => d.data.name === "wakemed")
+      .append("g")
+      .attr("transform", (d) => `translate(${d.x + 1},${d.y + 1})`)
+      .classed("unc", (d) => d.data.name === "unc")
+      .classed("duke", (d) => d.data.name === "duke")
+      .classed("wakemed", (d) => d.data.name === "wakemed")
       ;
 
     leaf.append("circle")
-        .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7)
-        .on("click", this.bubbleClicked.bind(this));
+      .attr("r", (d) => d.r)
+      .attr("fill-opacity", 0.7)
+      .on("click", this.bubbleClicked.bind(this));
   }
 
   /** constructor sets up chart data
@@ -107,8 +107,8 @@ class BubbleChart extends Component {
       */
   pack(size) {
     return d3.pack()
-        .size(size)
-        .padding(3);
+      .size(size)
+      .padding(3);
   }
 
   /** constructor sets up chart data
@@ -117,7 +117,7 @@ class BubbleChart extends Component {
  */
   makeHeirarchy(data) {
     return d3.hierarchy({ children: data })
-        .sum((d) => d.avg_price);
+      .sum((d) => d.avg_price);
   }
 
   /** filters data by changing state when checkbox checked or unchecked
@@ -232,32 +232,34 @@ class BubbleChart extends Component {
     return (
       <div>
         <h2>Bubble Chart</h2>
-        <label htmlFor="duke-cb">
-          <input
-            id="duke-cb"
-            type="checkbox"
-            checked={this.state.showDuke}
-            onChange={this.toggleDuke.bind(this)} />
-          Duke
+        <div className="input-container">
+          <label htmlFor="duke-cb">
+            <input
+              id="duke-cb"
+              type="checkbox"
+              checked={this.state.showDuke}
+              onChange={this.toggleDuke.bind(this)} />
+            Duke
         </label>
-        <br />
-        <label htmlFor="unc-cb">
-          <input
-            id="unc-cb"
-            type="checkbox"
-            checked={this.state.showUnc}
-            onChange={this.toggleUnc.bind(this)} />
-          UNC
+          <br />
+          <label htmlFor="unc-cb">
+            <input
+              id="unc-cb"
+              type="checkbox"
+              checked={this.state.showUnc}
+              onChange={this.toggleUnc.bind(this)} />
+            UNC
         </label>
-        <br />
-        <label htmlFor="wm-cb">
-          <input
-            id="wm-cb"
-            type="checkbox"
-            checked={this.state.showWm}
-            onChange={this.toggleWm.bind(this)} />
-          WakeMed
+          <br />
+          <label htmlFor="wm-cb">
+            <input
+              id="wm-cb"
+              type="checkbox"
+              checked={this.state.showWm}
+              onChange={this.toggleWm.bind(this)} />
+            WakeMed
         </label>
+        </div>
         {this.getToolTip()}
         <div id="bubble-chart" ref={(el) => (this.el = el)} />
       </div >

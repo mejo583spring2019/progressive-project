@@ -60,6 +60,15 @@
     top: 200px;
     width: 1px;
     left:135px;
+}
 
+.input-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
 
+#bubble-chart{
+    display: flex; 
+    justify-content: center;
 }

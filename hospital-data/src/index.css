@@ -12,3 +12,36 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.menu-container{
+  display: flex; 
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.menu-item {
+  display: flex; 
+ 
+}
+
+li a{
+  text-decoration: none;
+}
+
+li{
+  list-style-type: none;
+  font-weight: bold;
+}
+
+a:visited{
+  color: black;
+}
+
+h1, h2, h3{
+  text-align: center;
+}
+
+div.tablulator{
+  background-color: white;
+  width: 100%;
+}
