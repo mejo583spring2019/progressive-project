@@ -117,8 +117,10 @@ class GroupChart extends Component {
     */
   render() {
     return (
-      <div >
+      <div className="grouped-charts-container">
         <h2>Grouped Chart</h2>
+        <div>Pricing comparisons for the 20 most expensive
+          procedures found in the DRG pricing data</div>
         <div className="all-charts">{this.getGroupCharts()}</div>
       </div>
 
