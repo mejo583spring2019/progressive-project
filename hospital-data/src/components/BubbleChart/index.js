@@ -40,6 +40,7 @@ class BubbleChart extends Component {
       showUNC: true,
       showWakemed: true,
       data: this.fullData.slice(),
+      selected: null,
     };
   }
 
@@ -92,9 +93,11 @@ class BubbleChart extends Component {
         .classed("duke", (d) => d.data.name === "duke")
         .classed("wakemed", (d) => d.data.name === "wakemed");
 
-    leaf.append("circle")
+    leaf
+        .append("circle")
         .attr("r", (d) => d.r)
-        .attr("fill-opacity", 0.7);
+        .attr("fill-opacity", 0.7)
+        .on("click", this.bubbleClicked.bind(this));
   }
 
   /** this is a JSDOC comment.
@@ -137,6 +140,40 @@ class BubbleChart extends Component {
   toggleWakemed() {
     this.filterData({ showWakemed: !this.state.showWakemed });
   }
+  bubbleClicked(bubble) {
+    this.setState({ selected: bubble });
+  }
+
+  getTooltip() {
+    const ttWidth = 300;
+    // const ttHeight = 200;
+    const s = this.state.selected;
+    if (s) {
+      const bodyPos = document.body.getBoundingClientRect();
+      const svgPos = d3.select(this.el)._groups[0][0].getBoundingClientRect();
+
+      return (
+        <div
+          className="tooltip"
+          style={{
+            left: svgPos.left + (s.x - ttWidth / 2),
+            top: bodyPos.y + svgPos.y + s.y - s.r - 5,
+          }}
+          onClick={() => this.setState({ selected: null })
+          }
+        >
+
+          <div className="tooltip-content">
+            <p>{s.data.name}</p>
+            <p>{s.data.drg_code}</p>
+            <p>{s.data.avg_price}</p>
+            <p>{s.data.drg_description}</p>
+          </div>
+          <div className="tooltip-tail" />
+        </div >
+      );
+    }
+  }
   /** this is a JSDOC comment.*/
   componentDidUpdate() {
     this.drawChart();
@@ -147,8 +184,8 @@ class BubbleChart extends Component {
     this.drawChart();
   }
   /** this is a JSDOC comment.
-     * @return {any} a div.
-     */
+  * @return {any} a div.
+        */
   render() {
     return (
       <div>
@@ -181,6 +218,9 @@ class BubbleChart extends Component {
             onChange={this.toggleWakemed.bind(this)} />
           WakeMed
         </label>
+
+        {this.getTooltip()}
+
         <div
           id="bubblechart" ref={(el) => (this.el = el)} />
 
