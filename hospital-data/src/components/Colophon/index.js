@@ -32,6 +32,7 @@ class Colophon extends Component {
         <h2>Plugins</h2>
         <p>This website takes advantages of many package libraries to
           get things done, such as <a href="https://reacttraining.com/react-router">React Router</a> and <a href="https://www.npmjs.com/package/tabulator">Tabulator</a>.
+          It is hosted on <a href="https://pages.github.com/">GitHub pages</a> using this <a href="https://facebook.github.io/create-react-app/docs/deployment">tutorial on how to set it up.</a>
         </p>
         <h2>Data</h2>
         <p>
