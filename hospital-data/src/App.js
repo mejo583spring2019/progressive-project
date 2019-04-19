@@ -43,7 +43,7 @@ class App extends Component {
                 <Link to="/chart">Bubble Chart</Link>
               </li>
               <li className="menu-item">
-                <Link to="/chart/group">Group Chart</Link>
+                <Link to="/chart/group">Grouped Chart</Link>
               </li>
             </ul>
           </nav>
