@@ -1,5 +1,3 @@
-/* eslint-disable require-jsdoc */ // REMOVE THESE LINES WHEN DONE EDITING
-
 import React, { Component } from "react";
 import * as d3 from "d3";
 
@@ -102,7 +100,7 @@ class GroupChart extends Component {
   render() {
     return (
       <div>
-        <h2>Group Chart</h2>
+        <h2 className="main-header">Group Chart</h2>
         <div className="all-charts">
           {this.getGroupCharts()}
         </div>
@@ -239,7 +237,7 @@ class SingleGroupChart extends Component {
           className="tooltip"
           style={{
             left: svgPos.left + (s.x - ttWidth/2) + 6.5,
-            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r + 5,
+            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r - 10,
           }}
           onClick={() => this.setState({ selected: null })}
         >

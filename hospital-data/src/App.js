@@ -10,7 +10,9 @@ import GroupChart from "./components/GroupChart";
 function Index() {
   return (
     <div>
-      <h2>Home</h2>
+      <h2 className="main-header">Home</h2>
+      <div className="intro">This project was composed from data retrieved from UNC, Duke, and Wakemed hospitals.
+      It was constructed in ReactJS for MEJO 583 at UNC-Chapel Hill.</div>
     </div>
   );
 }
@@ -22,26 +24,50 @@ class App extends Component {
       <Router>
         <div>
           <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/chart">BubbleChart</Link>
-              </li>
-              <li>
-                <Link to="/chart/group">Group Chart</Link>
-              </li>
-              <li>
-                <Link to="/data/duke">Duke DRG</Link>
-              </li>
-              <li>
-                <Link to="/data/unc">UNC DRG</Link>
-              </li>
-              <li>
-                <Link to="/data/wakemed">WakeMed DRG</Link>
-              </li>
-            </ul>
+            <div id="navbar">
+              <div class="linkwrapper">
+                <Link to="/">
+                  <div id="link1" className="nav-item">
+                    <span className="nav-item-text">Home</span>
+                  </div>
+                </Link>
+              </div>
+              <div class="linkwrapper">
+                <Link to="/chart">
+                  <div id="link2" className="nav-item">
+                    <span className="nav-item-text">Bubble Chart</span>
+                  </div>
+                </Link>
+              </div>
+              <div class="linkwrapper">
+                <Link to="/chart/group">
+                  <div id="link3" className="nav-item">
+                    <span className="nav-item-text">Group Chart</span>
+                  </div>
+                </Link>
+              </div>
+              <div class="linkwrapper">
+                <Link to="/data/duke">
+                  <div id="link4" className="nav-item">
+                    <span className="nav-item-text">Duke DRG</span>
+                  </div>
+                </Link>
+              </div>
+              <div class="linkwrapper">
+                <Link to="/data/unc">
+                  <div id="link5" className="nav-item">
+                    <span className="nav-item-text">UNC DRG</span>
+                  </div>
+                </Link>
+              </div>
+              <div class="linkwrapper">
+                <Link to="/data/wakemed">
+                  <div id="link6" className="nav-item">
+                    <span className="nav-item-text">WakeMed DRG</span>
+                  </div>
+                </Link>
+              </div>
+            </div>
           </nav>
 
           <Route path="/" exact component={Index} />

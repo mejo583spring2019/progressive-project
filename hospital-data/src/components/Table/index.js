@@ -3,6 +3,8 @@ import Tabulator from "tabulator-tables"; // import Tabulator library
 // eslint-disable-next-line max-len
 import "tabulator-tables/dist/css/tabulator.min.css"; // import Tabulator stylesheet
 
+import "./styles.css";
+
 class Table extends Component {
   el = React.createRef();
   tabulator = null; // variable to hold your table
@@ -23,7 +25,7 @@ class Table extends Component {
   render() {
     return (
       <div>
-        <h2>{this.tableHeader}</h2>
+        <h2 className="main-header">{this.tableHeader}</h2>
         < div ref={(el) => (this.el = el)} />;
       </div>
     );

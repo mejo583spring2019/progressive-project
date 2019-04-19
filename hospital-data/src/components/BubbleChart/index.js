@@ -1,4 +1,3 @@
-/* eslint-disable require-jsdoc */ // REMOVE THESE LINES WHEN DONE EDITING
 import React, { Component } from "react";
 import * as d3 from "d3";
 
@@ -8,6 +7,11 @@ import wakemedDrg from "../../data/wakemed/drg";
 
 import "./styles.css";
 
+/**
+ * BubbleChart compiles the duke, unc, and wakemed data and creates a chart
+ * using createSVG and drawChart BubbleChart also contains code allowing data
+ * to be toggled and filtered, as well as tooltip functinoality
+ */
 class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
@@ -42,14 +46,15 @@ class BubbleChart extends Component {
       selected: null,
     };
   }
-
+  /**
+   * CreateSVG uses d3 to create an SVG element for the chart to occupy
+   */
   createSVG() {
     this.svg = d3
         .select(this.el)
         .append("svg")
         .attr("width", this.width)
-        .attr("height", this.height)
-        .attr("style", "border: thin red solid");
+        .attr("height", this.height);
   }
 
   drawChart() {
@@ -154,8 +159,8 @@ class BubbleChart extends Component {
         <div
           className="tooltip"
           style={{
-            left: svgPos.left + (s.x - ttWidth/2) + 6.5,
-            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r + 5,
+            left: svgPos.left + (s.x - ttWidth/2) + 5,
+            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r - 10,
           }}
           onClick={() => this.setState({ selected: null })}
         >
@@ -204,33 +209,35 @@ class BubbleChart extends Component {
   render() {
     return (
       <div>
-        <h2>BubbleChart</h2>
-        <label htmlFor="duke-cb">
-          <input
-            id="duke-cb"
-            type="checkbox"
-            checked={this.state.showDuke}
-            onChange={this.toggleDuke.bind(this)} />
+        <h2 className="main-header">Bubble Chart</h2>
+        <div className="selector-container">
+          <label htmlFor="duke-cb">
+            <input
+              id="duke-cb"
+              type="checkbox"
+              checked={this.state.showDuke}
+              onChange={this.toggleDuke.bind(this)} />
           Duke
-        </label>
-        <br />
-        <label htmlFor="unc-cb">
-          <input
-            id="unc-cb"
-            type="checkbox"
-            checked={this.state.showUNC}
-            onChange={this.toggleUNC.bind(this)} />
+          </label>
+          <br />
+          <label htmlFor="unc-cb">
+            <input
+              id="unc-cb"
+              type="checkbox"
+              checked={this.state.showUNC}
+              onChange={this.toggleUNC.bind(this)} />
           UNC
-        </label>
-        <br />
-        <label htmlFor="wakemed-cb">
-          <input
-            id="wakemed-cb"
-            type="checkbox"
-            checked={this.state.showWakemed}
-            onChange={this.toggleWakemed.bind(this)} />
+          </label>
+          <br />
+          <label htmlFor="wakemed-cb">
+            <input
+              id="wakemed-cb"
+              type="checkbox"
+              checked={this.state.showWakemed}
+              onChange={this.toggleWakemed.bind(this)} />
           Wakemed
-        </label>
+          </label>
+        </div>
 
         {this.getTooltip()}
 

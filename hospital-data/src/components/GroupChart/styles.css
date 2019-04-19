@@ -73,5 +73,16 @@
 
 .chart-container {
     padding: 1rem;
-    margin-bottom: 1rem;
+    margin:.33rem;
+    border: solid #edeeef 1.5px;
+    border-radius: 10px;
+}
+
+.all-charts{
+    margin-top: 5vh;
+    margin-left: 1rem;
+}
+
+.main-header{
+    margin-top: 5vh;
 }
