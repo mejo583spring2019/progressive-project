@@ -17,22 +17,32 @@ class BubbleChart extends Component {
 
     this.dukeData = duke_drg.map(r => {
       r.name = "duke";
+      r.key = r.name + r.drg_code;
       return r;
     });
     this.uncData = unc_drg.map(r => {
       r.name = "unc";
+      r.key = r.name + r.drg_code;
       return r;
     });
     this.wakemedData = wakemed_drg.map(r => {
       r.name = "wakemed";
+      r.key = r.name + r.drg_code;
       return r;
     });
 
-    this.data = this.dukeData.concat(this.uncData, this.wakemedData);
+    this.fullData = this.dukeData.concat(this.uncData, this.wakemedData);
+
+    this.state = {
+      showDuke: true,
+      showUNC: true,
+      showWakemed: true,
+      data: this.fullData.slice()
+    };
   }
 
   createSVG() {
-    return d3
+    this.svg = d3
       .select(this.el)
       .append("svg")
       .attr("width", this.width)
@@ -40,15 +50,27 @@ class BubbleChart extends Component {
       .attr("style", "border: thin red solid");
   }
 
-  drawChart(svg) {
-    let data = this.data;
+  drawChart() {
+    let data = this.state.data;
+    data.sort((a, b) => parseInt(b.avg_price) - parseInt(a.avg_price));
+
     let hierarchalData = this.makeHierarchy(data);
     let packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchalData);
 
-    const leaf = svg
-      .selectAll("g")
-      .data(root.leaves())
+    const groups = this.svg.selectAll("g").data(root.leaves(), d => d.data.key);
+
+    const t = d3.transition().duration(800);
+
+    groups
+      .transition(t)
+      .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`);
+
+    groups.select("circle").attr("r", d => d.r);
+
+    groups.exit().remove();
+
+    const leaf = groups
       .enter()
       .append("g")
       .attr("transform", d => `translate(${d.x + 1},${d.y + 1})`)
@@ -73,16 +95,79 @@ class BubbleChart extends Component {
     return d3.hierarchy({ children: data }).sum(d => d.avg_price);
   }
 
+  filterData(newState) {
+    newState = { ...this.state, ...newState };
+
+    let newData = this.fullData.filter(r => {
+      return (
+        (r.name === "duke" && newState.showDuke) ||
+        (r.name === "unc" && newState.showUNC) ||
+        (r.name === "wakemed" && newState.showWakemed)
+      );
+    });
+
+    newState.data = newData;
+
+    this.setState(newState);
+  }
+
+  toggleDuke() {
+    this.filterData({ showDuke: !this.state.showDuke });
+  }
+
+  toggleUNC() {
+    this.filterData({ showUNC: !this.state.showUNC });
+  }
+
+  toggleWakemed() {
+    this.filterData({ showWakemed: !this.state.showWakemed });
+  }
+
+  componentDidUpdate() {
+    this.drawChart();
+  }
+
   componentDidMount() {
-    let svg = this.createSVG();
-    this.drawChart(svg);
+    this.createSVG();
+    this.drawChart();
   }
 
   render() {
     return (
       <div>
         <h2>Bubble Chart</h2>
-        <div id="bubblechart" ref={el => (this.el = el)} />;
+
+        <label htmlFor="duke-cb">
+          <input
+            id="duke-cb"
+            type="checkbox"
+            checked={this.state.showDuke}
+            onChange={this.toggleDuke.bind(this)}
+          />
+          Duke
+        </label>
+        <br />
+        <label htmlFor="unc-cb">
+          <input
+            id="unc-cb"
+            type="checkbox"
+            checked={this.state.showUNC}
+            onChange={this.toggleUNC.bind(this)}
+          />
+          UNC
+        </label>
+        <br />
+        <label htmlFor="wakemed-cb">
+          <input
+            id="wakemed-cb"
+            type="checkbox"
+            checked={this.state.showWakemed}
+            onChange={this.toggleWakemed.bind(this)}
+          />
+          Wakemed
+        </label>
+
+        <div id="bubblechart" ref={el => (this.el = el)} />
       </div>
     );
   }
