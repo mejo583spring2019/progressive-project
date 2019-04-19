@@ -249,13 +249,19 @@ class BubbleChart extends Component {
   }
 
   /**
-   * Renders the chart onto page
+   * Renders the first bubble chart onto page
    * @return {any} JSX to build bubble chart.
    */
   render() {
     return (
-      <div>
+      <div className="overview-chart">
         <h2>Bubble Chart</h2>
+        <p>
+          This chart reprsents all the procedures that are
+          listed in each hospital's DRG records. To see what each hospital
+          offers specifically, go to each tab with that hospital name
+          to be presented with tables showing all procedures and prices.
+        </p>
 
         <label htmlFor="duke-cb">
           <input

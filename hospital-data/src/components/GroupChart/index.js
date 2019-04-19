@@ -112,8 +112,14 @@ class GroupChart extends Component {
    */
   render() {
     return (
-      <div>
-        <h2>Group Chart</h2>
+      <div className="group-charts">
+        <h2>Compare Average Hospital Prices</h2>
+        <p>
+          These graphs present you with the top 20 most expensive
+          procedures done at the three hospitals. It gives you data
+          on the average pricing and graphically shows you which hospital
+          charges the most for which procedure (if applicable).
+        </p>
         <div className="all-charts">
           {this.getGroupCharts()}
         </div>

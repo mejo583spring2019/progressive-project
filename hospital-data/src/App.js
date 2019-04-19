@@ -24,6 +24,10 @@ function Index() {
           Duke Med</a>, <a href="https://www.uncmedicalcenter.org/uncmc/hospitals-locations/profile/unc-hospitals/" target="_blank" rel="noopener noreferrer">
           UNC Hospitals</a>, and <a href="https://www.wakemed.org/" target="_blank" rel="noopener noreferrer">Wake Med</a>.
       </p>
+      <p>
+        Click on the links above to see the data
+        presented in table form or bubble charts.
+      </p>
       <img src="https://cdn.pixabay.com/photo/2017/08/07/20/05/doctors-2607295_960_720.jpg" alt="A group of doctors stand in a hospital hallway" />
     </div>
   );

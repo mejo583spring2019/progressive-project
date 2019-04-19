@@ -16,22 +16,22 @@ body {
 }
 
 .nav__links {
-  justify-content: space-around;
+  justify-content: space-between;
   width: 80vw;
   list-style: none;
   color: black;
+  padding: 0;
 }
 
 .nav__links li a, .home__text a{
   display: inline-block;
-  color: inherit;
   text-decoration: none;
-  color: black;
   transition: border-bottom 0.1s;
 }
 
 .home__text a {
   font-weight: bold;
+  color: #4B9CD3;
 }
 
 .home__text img {
@@ -42,7 +42,7 @@ body {
 .nav__links li a:after, .home__text a:after {
   display: block;
   content: '';
-  border-bottom: solid 3px #447BBE;  
+  border-bottom: solid 3px #4B9CD3;  
   transform: scaleX(0);  
   transition: transform 250ms ease-in-out; 
   transform-origin:  0% 50%;
