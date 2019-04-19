@@ -23,7 +23,7 @@ class Colophon extends Component {
             Node</a>.
         </p>
         <p>
-          It is hosted on <a href="https://pages.github.com/">GitHub pages</a> using this <a href="https://facebook.github.io/create-react-app/docs/deployment">tutorial on how to set it up.</a>
+          It is hosted on <a href="https://pages.github.com/">GitHub pages</a> using <a href="https://facebook.github.io/create-react-app/docs/deployment">this tutorial</a> on how to set it up.
         </p>
         <h2>Plugins</h2>
         <p>This website takes advantages of many package libraries to
