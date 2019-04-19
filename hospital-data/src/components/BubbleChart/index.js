@@ -55,8 +55,7 @@ class BubbleChart extends Component {
   createSVG() {
     this.svg = d3.select(this.el).append("svg")
         .attr("width", this.width)
-        .attr("height", this.height)
-        .attr("style", "border: thin red solid");
+        .attr("height", this.height);
   }
 
   /**

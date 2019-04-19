@@ -7,11 +7,18 @@ import WakeTable from "./components/WakeTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
+import "./index.css";
+
 /** Create an Index that returns to home
  * @return {any} JSX to render header.
  */
 function Index() {
-  return <h2>Home</h2>;
+  return (
+    <div className="home__text">
+      <h2>Hello World</h2>
+      <p>Colophon lives here</p>
+    </div>
+  );
 }
 
 /** App to render the whole project */
@@ -22,9 +29,9 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
-          <nav>
-            <ul>
+        <div className="flex-column">
+          <nav >
+            <ul className="nav__links flex">
               <li>
                 <Link to="/">Home</Link>
               </li>
