@@ -31,21 +31,18 @@ class App extends Component {
           <nav>
             <ul className="menu-container">
               <li className="menu-item">
-                <Link to="/">Home</Link>
-              </li>
-              <li>
                 <Link to="/data-duke">Duke DRG</Link>
               </li>
-              <li>
+              <li className="menu-item">
                 <Link to="/data-unc">UNC DRG</Link>
               </li>
-              <li>
+              <li className="menu-item">
                 <Link to="/data-wm">WakeMed DRG</Link>
               </li>
-              <li>
+              <li className="menu-item">
                 <Link to="/chart">Bubble Chart</Link>
               </li>
-              <li>
+              <li className="menu-item">
                 <Link to="/chart/group">Group Chart</Link>
               </li>
             </ul>
