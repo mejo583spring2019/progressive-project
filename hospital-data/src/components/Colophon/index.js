@@ -23,16 +23,11 @@ class Colophon extends Component {
             Node</a>.
         </p>
         <p>
-          The website should work in any modern browser on any sized device.
-          Older browsers will get a visually simplistic version instead.
-          Some older browsers, like Internet Explorer 8, will not be able to
-          access the site as the site uses security standards newer than what is
-          supported by ancient browsers.
+          It is hosted on <a href="https://pages.github.com/">GitHub pages</a> using this <a href="https://facebook.github.io/create-react-app/docs/deployment">tutorial on how to set it up.</a>
         </p>
         <h2>Plugins</h2>
         <p>This website takes advantages of many package libraries to
           get things done, such as <a href="https://reacttraining.com/react-router">React Router</a> and <a href="https://www.npmjs.com/package/tabulator">Tabulator</a>.
-          It is hosted on <a href="https://pages.github.com/">GitHub pages</a> using this <a href="https://facebook.github.io/create-react-app/docs/deployment">tutorial on how to set it up.</a>
         </p>
         <h2>Data</h2>
         <p>
