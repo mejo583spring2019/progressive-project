@@ -7,6 +7,9 @@ import WakeMedTable from "./components/WakeMedTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
+/** Index presents a heading for the homepage
+ * @return {html}
+ */
 function Index() {
   return (
     <div>
@@ -15,7 +18,12 @@ function Index() {
   );
 }
 
+/** App presents the site index
+ */
 class App extends Component {
+  /** Presents site HTML
+   * @return {html}
+   */
   render() {
     return (
       <Router>

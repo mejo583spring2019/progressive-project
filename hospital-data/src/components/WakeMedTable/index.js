@@ -1,12 +1,15 @@
 import Table from "../Table";
-import wakemed_drg from "../../data/wakemed/drg";
+import wakemedDRG from "../../data/wakemed/drg";
 
+/** WakeMedTable presents the WakeMed DRG
+ * data in a tabulator table.
+ */
 class WakeMedTable extends Table {
-  tableData = wakemed_drg;
+  tableData = wakemedDRG;
   columns = [
     { title: "Code", field: "drg_code" },
     { title: "Description", field: "drg_description" },
-    { title: "Average Price", field: "avg_price" }
+    { title: "Average Price", field: "avg_price" },
   ];
   tableHeader = "WakeMed Hospital DRG";
 }
