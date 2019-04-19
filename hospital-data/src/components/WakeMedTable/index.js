@@ -1,6 +1,9 @@
 import Table from "../Table";
 import wakemedDrg from "../../data/wakemed/drg";
 
+/**
+ * WakeMedTable puts the WakeMed data into a table
+ */
 class WakeMedTable extends Table {
   tableData = wakemedDrg;
   columns = [

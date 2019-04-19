@@ -16,7 +16,10 @@ class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
   height = 600;
-
+  /**
+   * constructor prepares the data for the charts
+   * @param {object} props
+   */
   constructor(props) {
     super(props);
 
@@ -56,7 +59,11 @@ class BubbleChart extends Component {
         .attr("width", this.width)
         .attr("height", this.height);
   }
-
+  /**
+   * drawChart takes the data (each entry is referred to as a leaf),
+   * sorts it, packs it, and uses d3 to represent the data as circles
+   * in a bubble chart
+   */
   drawChart() {
     const data = this.state.data;
 
@@ -101,18 +108,29 @@ class BubbleChart extends Component {
         .attr("fill-opacity", 0.7)
         .on("click", this.bubbleClicked.bind(this));
   }
-
+  /**
+   * pack takes the data and packs it using d3
+   * @param {object} size
+   * @return {any} d3
+   */
   pack(size) {
     return d3
         .pack()
         .size(size)
         .padding(3);
   }
-
+  /**
+   * makeHierarchy organizes the data in hierarchally
+   * @param {object} data
+   * @return {any} d3.hierarchy
+   */
   makeHierarchy(data) {
     return d3.hierarchy({children: data}).sum((d) => d.avg_price);
   }
-
+  /**
+   * filterData allows for individuals to filter the data from the 3 hospitals
+   * @param {object} newState
+   */
   filterData(newState) {
     newState = {...this.state, ...newState};
 
@@ -130,22 +148,44 @@ class BubbleChart extends Component {
     this.setState(newState);
   }
 
+  /**
+   * toggleDuke uses filterData to change the state of duke data by
+   * filtering it in and out
+   */
   toggleDuke() {
     this.filterData({showDuke: !this.state.showDuke});
   }
 
+  /**
+   * toggleUNC uses filterData to change the state of UNC data by
+   * filtering it in and out
+   */
   toggleUNC() {
     this.filterData({showUNC: !this.state.showUNC});
   }
 
+  /**
+   * toggleWakemed uses filterData to change the state of Wakemed data by
+   * filtering it in and out
+   */
   toggleWakemed() {
     this.filterData({showWakemed: !this.state.showWakemed});
   }
 
+  /**
+   * bubbleClick registers clicks on individual bubbles,
+   * is later used for tooltip
+   * @param {object} bubble
+   */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble});
   }
 
+  /**
+   * getTooltip uses the state to determine whether or not to present a tooltip,
+   * as well as where the tooltip should appear dependant on the bubble
+   * @return {object} tooltip div
+   */
   getTooltip() {
     const ttWidth = 300;
     const ttHeight = 200;
@@ -196,16 +236,26 @@ class BubbleChart extends Component {
     }
   }
 
+  /**
+   * componentDidUpdate makes sure the chart is correctly redrawn
+   * upon changes to the state
+   */
   componentDidUpdate() {
     this.drawChart();
   }
 
+  /**
+   * componentDidMount triggers createSVG and drawChart upon mounting
+   */
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
 
-
+  /**
+   * Renders bubble chart component
+   * @return {object} bubble chart div
+   */
   render() {
     return (
       <div>

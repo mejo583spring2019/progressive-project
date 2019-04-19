@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import Tabulator from "tabulator-tables"; // import Tabulator library
-// eslint-disable-next-line max-len
-import "tabulator-tables/dist/css/tabulator.min.css"; // import Tabulator stylesheet
+import "tabulator-tables/dist/css/tabulator.min.css"; // import Tabulator style
 
 import "./styles.css";
 
+/**
+ * Table uses tabulator to create the basic template for our data tables
+ */
 class Table extends Component {
   el = React.createRef();
   tabulator = null; // variable to hold your table
@@ -12,8 +14,10 @@ class Table extends Component {
   columns = []; // column definitions
   tableHeader = "";
 
+  /**
+   * componentDidMount instantiates Tabulator when element is mounted
+   */
   componentDidMount() {
-    // instantiate Tabulator when element is mounted
     this.tabulator = new Tabulator(this.el, {
       height: "500px",
       data: this.tableData, // link data to table
@@ -21,7 +25,10 @@ class Table extends Component {
       columns: this.columns, // define table columns
     });
   }
-
+  /**
+   * render renders the table and its header
+   * @return {object} div containing table and header
+   */
   render() {
     return (
       <div>
