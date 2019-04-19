@@ -45,7 +45,6 @@ class BubbleChart extends Component {
   }
 
   /** this is a JSDOC comment.
-  * @return {attr}  attributes
  */
   createSVG() {
     this.svg = d3
@@ -76,6 +75,11 @@ class BubbleChart extends Component {
     const groups = this.svg
         .selectAll("g")
         .data(root.leaves(), (d) => d.data.key);
+
+    if (data.length === 0) {
+      groups.exit().remove();
+      return;
+    }
 
     const t = d3.transition().duration(800);
     groups
@@ -127,6 +131,7 @@ class BubbleChart extends Component {
       );
     });
     newState.data = newData;
+    newState.selected = null;
     this.setState(newState);
   }
 
@@ -146,7 +151,7 @@ class BubbleChart extends Component {
 
   getTooltip() {
     const ttWidth = 300;
-    // const ttHeight = 200;
+    const ttHeight = 200;
     const s = this.state.selected;
     if (s) {
       const bodyPos = document.body.getBoundingClientRect();
@@ -156,18 +161,35 @@ class BubbleChart extends Component {
         <div
           className="tooltip"
           style={{
-            left: svgPos.left + (s.x - ttWidth / 2),
-            top: bodyPos.y + svgPos.y + s.y - s.r - 5,
+            left: svgPos.left + (s.x - ttWidth / 2) + 1.5,
+            top: s.y + (svgPos.y - bodyPos.y) - ttHeight - s.r,
           }}
           onClick={() => this.setState({ selected: null })
           }
         >
 
           <div className="tooltip-content">
-            <p>{s.data.name}</p>
-            <p>{s.data.drg_code}</p>
-            <p>{s.data.avg_price}</p>
-            <p>{s.data.drg_description}</p>
+            <div className="flex-row">
+              <div className="flex-item">
+                <div className="header">HOSPITAL</div>
+                <div className="value">{s.data.name}</div>
+              </div>
+              <div className="flex-item center-justified">
+                <div className="header">AVERAGE PRICE</div>
+                <div className="value">${s.data.avg_price}</div>
+              </div>
+              <div className="flex-item right-justified">
+                <div className="header">CODE</div>
+                <div className="value">{s.data.drg_code}</div>
+              </div>
+            </div>
+          </div>
+          <div className="flex-row">
+            <div className="flex-item">
+              <div className="header">DESCRIPTION</div>
+              <div className="value">{
+                s.data.drg_description.toLowerCase()}</div>
+            </div>
           </div>
           <div className="tooltip-tail" />
         </div >

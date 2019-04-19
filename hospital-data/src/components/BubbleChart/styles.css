@@ -17,8 +17,30 @@
     padding: 10px;
     box-sizing: border-box;
 }
-.tooltip-content{
-    overflow-y: scroll;
+.flex-row{
+    display:flex;
+    flex-direction:row;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+.right-justified{
+    text-align: right;
+}
+.center-justified{
+    text-align: center;
+}
+.tooltip-content .header{
+    font-size: .7rem;
+}
+.header{
+    font-size: .7rem;
+}
+.tooltip-content .value{
+    text-transform: capitalize;
+}
+.value{
+    text-transform: capitalize;
 }
 
 .tooltip-tail{
