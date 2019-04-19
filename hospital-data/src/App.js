@@ -6,17 +6,25 @@ import UNCTable from "./components/UNCTable";
 import WakeTable from "./components/WakeTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
+import Colophon from "./components/Colophon";
 
 import "./index.css";
 
-/** Create an Index that returns to home
+/** Create an Index that returns the home page
+ * where the COLOPHON will live
  * @return {any} JSX to render header.
  */
 function Index() {
   return (
     <div className="home__text">
-      <h2>Hello World</h2>
-      <p>Colophon lives here</p>
+      <h2>Hello!</h2>
+      <p>Welcome to the progressive project built by the members of the
+        UNC School of Media and Journalism's 583 class.
+        This data represents the publicly-available hospital data from <a href="https://www.dukehealth.org/hospitals/duke-university-hospital/home" target="_blank" rel="noopener noreferrer">
+          Duke Med</a>, <a href="https://www.uncmedicalcenter.org/uncmc/hospitals-locations/profile/unc-hospitals/" target="_blank" rel="noopener noreferrer">
+          UNC Hospitals</a>, and <a href="https://www.wakemed.org/" target="_blank" rel="noopener noreferrer">Wake Med</a>.
+      </p>
+      <img src="https://cdn.pixabay.com/photo/2017/08/07/20/05/doctors-2607295_960_720.jpg" alt="A group of doctors stand in a hospital hallway" />
     </div>
   );
 }
@@ -50,6 +58,9 @@ class App extends Component {
               <li>
                 <Link to="/data/wakemed">WakeMed DRG</Link>
               </li>
+              <li>
+                <Link to="/colophon">Colophon</Link>
+              </li>
             </ul>
           </nav>
 
@@ -57,9 +68,9 @@ class App extends Component {
           <Route path="/chart" exact component={BubbleChart} />
           <Route path="/chart/group" exact component={GroupChart} />
           <Route path="/data/duke" exact component={DukeTable} />
-          <Route path="/data/duke" exact component={DukeTable} />
           <Route path="/data/unc" exact component={UNCTable} />
           <Route path="/data/wakemed" exact component={WakeTable} />
+          <Route path="/colophon" exact component={Colophon} />
         </div>
       </Router>
     );
