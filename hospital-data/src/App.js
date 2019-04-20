@@ -1,18 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { HashRouter as Router, Route, Link } from "react-router-dom";
 
-import DukeTable from './components/DukeTable';
-import UNCTable from './components/UNCTable';
-import WakeMedTable from './components/WakeMedTable';
-import BubbleChart from './components/BubbleChart'
-import GroupChart from './components/GroupChart'
+import DukeTable from "./components/DukeTable";
+import UNCTable from "./components/UNCTable";
+import WakeMedTable from "./components/WakeMedTable";
+import BubbleChart from "./components/BubbleChart";
+import GroupChart from "./components/GroupChart";
 
-
+/** comment
+ * home page
+ * @return {any}
+*/
 function Index() {
   return <div><h2>Home</h2></div>;
 }
-
+/** links to
+ * other pages
+ * @return {any}
+*/
 class App extends Component {
+  /** start application here
+ * the route of our knowledge
+ * @return {any}
+*/
   render() {
     return (
       <Router>
@@ -51,7 +61,6 @@ class App extends Component {
     );
   }
 }
-
 
 
 export default App;

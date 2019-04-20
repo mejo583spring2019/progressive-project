@@ -1,12 +1,12 @@
 import Table from "../Table";
-import duke_drg from '../../data/duke/drg';
+import dukeDrg from "../../data/duke/drg";
 
 class DukeTable extends Table {
-    tableData = duke_drg
+    tableData = dukeDrg
     columns = [
-        { title: "code", field: "drg_code" },
-        { title: "description", field: "drg_description" },
-        { title: "average price", field: "avg_price" },
+      { title: "code", field: "drg_code" },
+      { title: "description", field: "drg_description" },
+      { title: "average price", field: "avg_price" },
     ]
     tableHeader = "Duke University DRG"
 }
