@@ -10,14 +10,12 @@ import "./styles.css";
    * @return {any} a div.
    */
 class GroupChart extends Component {
-  el = React.createRef();
   /** sets up the constructor
    * @param {any} props sets up height and width
    */
   constructor(props) {
     super(props);
-    this.width = props.width || 250;
-    this.height = props.height || 250;
+
     this.dukeData = dukeDrg.map((r) => {
       r.name = "duke";
       r.key = r.name + r.drg_code;
@@ -76,6 +74,50 @@ class GroupChart extends Component {
     };
   }
 
+  /** creates grouped chart
+   * @return {any} chart.
+         */
+  getGroupCharts() {
+    if (this.state.top20) {
+      return this.state.top20.map((d, i) => {
+        return <SingleGroupChart key={i} data={d} />;
+      });
+    }
+  }
+  /** this is a JSDOC comment.
+  * @return {any} a div.
+        */
+  render() {
+    return (
+      <div>
+        <h2>Group Chart</h2>
+        <div className="all-charts">
+          {this.getGroupCharts()}
+        </div>
+      </div >
+    );
+  }
+}
+/** sets up the SingleGroupChart div
+   * @return {any} a div.
+   */
+class SingleGroupChart extends Component {
+  el = React.createRef();
+  /** sets up the constructor
+   * @param {any} props sets up height and width
+   */
+  constructor(props) {
+    super(props);
+    this.width = props.width || 250;
+    this.height = props.height || 250;
+
+    this.state = {
+      data: props.data,
+      selected: null,
+
+    };
+  }
+
   /** this is a JSDOC comment.
  */
   createSVG() {
@@ -83,22 +125,21 @@ class GroupChart extends Component {
         .select(this.el)
         .append("svg")
         .attr("width", this.width)
-        .attr("height", this.height)
-        .attr("style", "border: thin red solid");
+        .attr("height", this.height);
   }
   /** this is a JSDOC comment.
   * @param {svg} svg an svg
  */
   drawChart(svg) {
-    const data = Object.values(this.state.top20[1]);
+    const data = Object.values(this.state.data);
 
 
     // d3.shuffle(data);
 
     // optional (up to us)
-    data.sort((a, b) => {
-      return parseInt(b.avg_price) - parseInt(a.avg_price);
-    });
+    // data.sort((a, b) => {
+    //   return parseInt(b.avg_price) - parseInt(a.avg_price);
+    // });
 
     const hierarchicalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
@@ -238,6 +279,15 @@ class GroupChart extends Component {
       );
     }
   }
+  /** this gets the description per bubble
+   * @return {any} description.
+  */
+  getDescription() {
+    if (this.state.data) {
+      return Object.values(this.state.data)[0].drg_description.toLowerCase();
+    }
+  }
+
   /** this is a JSDOC comment.*/
   componentDidUpdate() {
     this.drawChart();
@@ -252,16 +302,18 @@ class GroupChart extends Component {
         */
   render() {
     return (
-      <div>
-        <h2>Group Chart</h2>
+      <div classname="class-container">
         {this.getTooltip()}
         <div
-          id="groupchart" ref={(el) => (this.el = el)} />
-        <div>${this.state.top20[1].avg_price}</div>
+          className="groupchart" ref={(el) => (this.el = el)} />
+        <div className="description">
+          {this.getDescription()}
+        </div>
+        <div className="price">${this.state.data.avg_price}</div>
+
       </div >
     );
   }
 }
-
 
 export default GroupChart;
