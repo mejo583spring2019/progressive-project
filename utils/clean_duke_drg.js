@@ -31,6 +31,7 @@ function main() {
     Object.keys(r).forEach((k) => {
       let val = r[k];
       val = val.trim();
+      val();
     });
   });
 
