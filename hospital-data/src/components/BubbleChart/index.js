@@ -6,17 +6,18 @@ import wakemedDrg from "../../data/wakemed/drg";
 
 import "./styles.css";
 
-/** this is a JSDOC comment.
+/**  sets up the Bubble Chart
    * @return {any} a div.
    */
 class BubbleChart extends Component {
   el = React.createRef();
   width = 800;
   height = 600;
-
+  /** Sets up the constructor
+   * @param {any} props
+   */
   constructor(props) {
     super(props);
-
     this.dukeData = dukeDrg.map((r) => {
       r.name = "duke";
       r.key = r.name + r.drg_code;
@@ -32,9 +33,7 @@ class BubbleChart extends Component {
       r.key = r.name + r.drg_code;
       return r;
     });
-
     this.fullData = this.dukeData.concat(this.wakemedData, this.uncData);
-
     this.state = {
       showDuke: true,
       showUNC: true,
@@ -121,6 +120,9 @@ class BubbleChart extends Component {
     return d3.hierarchy({ children: data })
         .sum((d) => d.avg_price);
   }
+  /** Filters the data & shows the new state of the data
+   * @param {any} newState for a newState for each new Data
+  */
   filterData(newState) {
     newState = { ...this.state, ...newState };
     const newData = this.fullData.filter((r) => {
@@ -135,20 +137,27 @@ class BubbleChart extends Component {
     this.setState(newState);
   }
 
-
+  /** Toggles the Duke filter*/
   toggleDuke() {
     this.filterData({ showDuke: !this.state.showDuke });
   }
+  /** Toggles the UNC filter*/
   toggleUNC() {
     this.filterData({ showUNC: !this.state.showUNC });
   }
+  /** Toggles the WakeMed filter*/
   toggleWakemed() {
     this.filterData({ showWakemed: !this.state.showWakemed });
   }
+  /** Changes state to selected when bubble is clicked
+   * @param {any} bubble when a bubble is clicked.
+  */
   bubbleClicked(bubble) {
     this.setState({ selected: bubble });
   }
-
+  /** Sets up the tooltip
+   * @return {any}
+  */
   getTooltip() {
     const ttWidth = 300;
     const ttHeight = 200;
