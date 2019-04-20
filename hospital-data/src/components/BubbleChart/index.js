@@ -43,7 +43,7 @@ class BubbleChart extends Component {
     };
   }
 
-  /** this is a JSDOC comment.
+  /** this creates the svg box with styling
  */
   createSVG() {
     this.svg = d3
@@ -53,8 +53,8 @@ class BubbleChart extends Component {
         .attr("height", this.height)
         .attr("style", "border: thin red solid");
   }
-  /** this is a JSDOC comment.
-  * @param {svg} svg an svg
+  /** draws the svg using the data from the state
+  * @param {Object} svg
  */
   drawChart(svg) {
     const data = this.state.data;
@@ -103,18 +103,18 @@ class BubbleChart extends Component {
         .on("click", this.bubbleClicked.bind(this));
   }
 
-  /** this is a JSDOC comment.
-   * @param {size} size
-   * @return {size} size
+  /** Creates a pack layout with the given size.
+   * @param {array} size {width, height}
+   * @return {function} D3 pack layout
   */
   pack(size) {
     return d3.pack()
         .size(size)
         .padding(3);
   }
-  /** this is a JSDOC comment.
-   * @param {data} data takes in some data
-   * @return {int} average price.
+  /** Creates a pack layout with the given size.
+   * @param {array} data [{record}, {record}...]
+   * @return {function} D3 hierarchy data structure
   */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
@@ -205,18 +205,18 @@ class BubbleChart extends Component {
       );
     }
   }
-  /** this is a JSDOC comment.*/
+  /** if the component updated, draw the chart*/
   componentDidUpdate() {
     this.drawChart();
   }
-  /** this is a JSDOC comment.*/
+  /** if the component mounted, draw the chart in the svg*/
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
-  /** this is a JSDOC comment.
-  * @return {any} a div.
-        */
+  /** renders the checkboxes
+  * @return {div}
+  */
   render() {
     return (
       <div>

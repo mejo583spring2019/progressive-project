@@ -6,18 +6,18 @@ import DukeTable from "./components/DukeTable";
 import BubbleChart from "./components/BubbleChart";
 import GroupChart from "./components/GroupChart";
 
-/** this is a JSDOC comment */
-/** this is a JSDOC comment.
- * @return {string}.
+/** Sets up the Home tag
+ * @return {h2}.
 */
 function Index() {
   return <h2>Home</h2>;
 }
 
-/** this is a JSDOC comment */
+/** sets up the App, to render the site navigation */
 class App extends Component {
-  /** this is a JSDOC comment.
-   * @return {any} a div.
+  /** sets up the render method,
+   * where the links to navigate the pages are.
+   * @return {Router}
    */
   render() {
     return (

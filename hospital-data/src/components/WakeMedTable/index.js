@@ -2,7 +2,9 @@ import Table from "../Table";
 import wakemedDrg from "../../data/wakemed/drg";
 // not named index.js, so must call the name of the file
 
-/** Sets up DukeTable data */
+/** WakeMedTable presents the wakemed DRG
+ * data in a tabulator table.
+ */
 class WakeMedTable extends Table {
   tableData = wakemedDrg;
   columns = [

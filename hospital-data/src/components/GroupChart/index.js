@@ -6,12 +6,11 @@ import wakemedDrg from "../../data/wakemed/drg";
 
 import "./styles.css";
 
-/** sets up the GroupChart div
-   * @return {any} a div.
-   */
+/** GroupChart creates a set of bubblecharts
+ * for grouped data*/
 class GroupChart extends Component {
-  /** sets up the constructor
-   * @param {any} props sets up height and width
+  /** sets up our chart data
+   * @param {object} props
    */
   constructor(props) {
     super(props);
@@ -74,8 +73,9 @@ class GroupChart extends Component {
     };
   }
 
-  /** creates grouped chart
-   * @return {any} chart.
+  /** getGroupCharts generates
+   * SingleGroupCharts for each dataset.
+   * @return {array} SingleGroupChart components.
          */
   getGroupCharts() {
     if (this.state.top20) {
@@ -84,9 +84,9 @@ class GroupChart extends Component {
       });
     }
   }
-  /** this is a JSDOC comment.
-  * @return {any} a div.
-        */
+  /** Presents all single group charts with a header.
+       * @return {any} Charts JSX.
+       */
   render() {
     return (
       <div>
@@ -98,13 +98,12 @@ class GroupChart extends Component {
     );
   }
 }
-/** sets up the SingleGroupChart div
-   * @return {any} a div.
-   */
+/** Presents a single group chart,
+ * used by GroupChart*/
 class SingleGroupChart extends Component {
   el = React.createRef();
   /** sets up the constructor
-   * @param {any} props sets up height and width
+   * @param {Object} props sets up height and width
    */
   constructor(props) {
     super(props);
@@ -118,7 +117,7 @@ class SingleGroupChart extends Component {
     };
   }
 
-  /** this is a JSDOC comment.
+  /** createSVG draws the box the data goes inside.
  */
   createSVG() {
     this.svg = d3
@@ -127,20 +126,11 @@ class SingleGroupChart extends Component {
         .attr("width", this.width)
         .attr("height", this.height);
   }
-  /** this is a JSDOC comment.
-  * @param {svg} svg an svg
+  /** this draws the chart
+  * @param {any} svg an svg
  */
   drawChart(svg) {
     const data = Object.values(this.state.data);
-
-
-    // d3.shuffle(data);
-
-    // optional (up to us)
-    // data.sort((a, b) => {
-    //   return parseInt(b.avg_price) - parseInt(a.avg_price);
-    // });
-
     const hierarchicalData = this.makeHierarchy(data);
     const packLayout = this.pack([this.width - 5, this.height - 5]);
     const root = packLayout(hierarchicalData);
@@ -177,18 +167,19 @@ class SingleGroupChart extends Component {
         .on("click", this.bubbleClicked.bind(this));
   }
 
-  /** this is a JSDOC comment.
-   * @param {size} size
-   * @return {size} size
+  /** Creates a pack layout with the given size.
+   * @param {array} size {width, height}
+   * @return {function} D3 pack layout
   */
   pack(size) {
     return d3.pack()
         .size(size)
         .padding(3);
   }
-  /** this is a JSDOC comment.
-   * @param {data} data takes in some data
-   * @return {int} average price.
+
+  /** Creates a pack layout with the given size.
+   * @param {array} data [{record}, {record}...]
+   * @return {function} D3 hierarchy data structure
   */
   makeHierarchy(data) {
     return d3.hierarchy({ children: data })
@@ -288,18 +279,18 @@ class SingleGroupChart extends Component {
     }
   }
 
-  /** this is a JSDOC comment.*/
+  /** if the component updated, draw the chart*/
   componentDidUpdate() {
     this.drawChart();
   }
-  /** this is a JSDOC comment.*/
+  /** if the component mounted, draw the chart in the svg*/
   componentDidMount() {
     this.createSVG();
     this.drawChart();
   }
-  /** this is a JSDOC comment.
-  * @return {any} a div.
-        */
+  /** renders what goes inside the tooltip
+  * @return {div}
+  */
   render() {
     return (
       <div classname="class-container">

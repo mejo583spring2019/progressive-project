@@ -2,7 +2,9 @@ import Table from "../Table";
 import uncDrg from "../../data/unc/drg";
 // not named index.js, so must call the name of the file
 
-/** Sets up DukeTable data */
+/** UNCTable presents the UNC DRG
+ * data in a tabulator table.
+ */
 class UNCTable extends Table {
   tableData = uncDrg;
   columns = [
