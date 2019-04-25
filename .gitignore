@@ -1,3 +1,7 @@
+# Don't include the data files
+Hospital_Data_Raw
+cleaned_data
+
 # Don't include VS Code workspace settings
 .vscode
 

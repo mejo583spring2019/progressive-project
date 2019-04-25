@@ -1,0 +1,64 @@
+.group-charts, .overview-chart {
+  width: 80vw;
+}
+
+
+.unc circle {
+  fill: #4B9CD3;
+}
+
+.duke circle {
+  fill: #012169;
+}
+
+.wakemed circle {
+  fill: crimson;
+}
+
+.tooltip {
+  width: 275px;
+  height:150px;
+  background: white;
+  box-shadow: 2px 2px 3px rgba(0,0,0,0.45);
+  position: absolute;
+  border-radius: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.tooltip-content .header{
+  font-size: 0.7rem;
+  color: #666;
+}
+
+.right-justified {
+text-align: right;
+}
+
+.center-justified {
+  text-align: center;
+}
+
+.tooltip-content .value{
+  text-transform: capitalize;
+}
+
+.flex-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row nowrap;
+  margin-bottom: 1rem;
+}
+
+.tooltip-tail {
+  width: 1px;
+  border-top: 15px solid white;
+  border-bottom: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  position: absolute;
+  top: 150px;
+  left: 120px;
+}
